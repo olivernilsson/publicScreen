@@ -43,8 +43,8 @@ public class DrawTestFrame extends JFrame {
 	TextArea chat = new TextArea();
 	
 	//change to vector
-    ArrayList<String> author = new ArrayList<String>();
-    ArrayList<String> msg = new ArrayList<String>();
+    Vector<String> author = new Vector<String>();
+    Vector<String> msg = new Vector<String>();
 	
 	private Graphics g;
 	private Vector<Drawing> users = new Vector<Drawing>();
@@ -75,7 +75,7 @@ public class DrawTestFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(chat);
+		//contentPane.add(chat);
 
 
 		setContentPane(contentPane);
