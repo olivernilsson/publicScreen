@@ -29,7 +29,7 @@ import com.firebase.client.ValueEventListener;
 import com.firebase.client.core.Path;
 
 
-//Vi vill hämta kordinaterna från databasen och rita ut dem på skärmen.
+//Vi vill hï¿½mta kordinaterna frï¿½n databasen och rita ut dem pï¿½ skï¿½rmen.
 public class DrawTestFrame extends JFrame {
 	private String tempurl = "";
 	private int dir;
@@ -75,14 +75,16 @@ public class DrawTestFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		//contentPane.add(chat);
-
+		contentPane.add(chat);
+		chat.setBackground(new Color(147,192,191));
 
 		setContentPane(contentPane);
+		
+		
 
 	    //coordinates = new ArrayList<Drawing>();
 		
-		//är det rätt att använda addchildeventlistener när vi ska konstant avlyssna kordinater
+		//ï¿½r det rï¿½tt att anvï¿½nda addchildeventlistener nï¿½r vi ska konstant avlyssna kordinater
 	    firebase.addChildEventListener(new ChildEventListener() {
 	        
 
@@ -97,7 +99,7 @@ public class DrawTestFrame extends JFrame {
 				
 				
 				
-				//kan vi använda place på samma sätt som du gör när vi ska hämta många kordinater?
+				//kan vi anvï¿½nda place pï¿½ samma sï¿½tt som du gï¿½r nï¿½r vi ska hï¿½mta mï¿½nga kordinater?
 				
 	        	for (DataSnapshot dataSnapshot : dsList) {
 	        	
@@ -155,6 +157,7 @@ public class DrawTestFrame extends JFrame {
 								
 							}
 							users.add(user);
+							 
 						}
 						repaint();
 					
@@ -210,7 +213,7 @@ public class DrawTestFrame extends JFrame {
 	    
 	    });
 	    
-	    // Läser av chatt från Firebase
+	    // Lï¿½ser av chatt frï¿½n Firebase
         firebasechat.addChildEventListener(new ChildEventListener() {
 
                     @Override
@@ -225,17 +228,20 @@ public class DrawTestFrame extends JFrame {
                             Iterable<DataSnapshot> dsList= snapshot.getChildren();
                            
                                     for (DataSnapshot dataSnapshot : dsList) {
-                                            // Hämtar och sorterar data från firebase
+                                            // Hï¿½mtar och sorterar data frï¿½n firebase
                                             if(dataSnapshot.getKey().equals("author")){
                                                     author.add(dataSnapshot.getValue().toString());
+                                                   
+                                         
                                             } else {
                                                     msg.add(dataSnapshot.getValue().toString());
                                             }
                            
                                     }
-                                    // Lägger till data från arraylist "author" och "msg" till TextArea chat
+                                    // Lï¿½gger till data frï¿½n arraylist "author" och "msg" till TextArea chat
                                     for (int i = 0; i < msg.size(); i++){
                                             chat.append(author.get(i) + ":  " + msg.get(i) + "\n");
+                                           
                                     }
                            
                     }
@@ -282,6 +288,8 @@ public class DrawTestFrame extends JFrame {
 			//g2.setColor(user.getColor());
 			g2.fillOval(x,y, 5, 5);
 			g2.setColor(Color.BLACK);
+			
+			
 			
 			//g.drawString(drawing.getId(),x+15,y+15);
 		}
