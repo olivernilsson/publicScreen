@@ -81,12 +81,17 @@ public class DrawTestFrame extends JFrame {
 	public DrawTestFrame() {
 		//TextArea chat = new TextArea();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(null);
 		
-		contentPane.add(chat); //Lägger till chatt ruta
+		JPanel panel = new JPanel();
+		panel.setBounds(418, 5, 356, 524);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		chat.setBounds(0, 0, 352, 525);
+		panel.add(chat);
 		chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
 		chat.setFont(new Font("Arial", Font.PLAIN, 18)); // Ändrar Font och storlek
 		chat.setForeground(Color.white); //Ändrar färg på texten
