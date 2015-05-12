@@ -89,8 +89,7 @@ public class DrawTestFrame extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBounds(418, 5, 356, 524);
 		contentPane.add(panel);
-		panel.setLayout(null);
-		chat.setBounds(0, 0, 352, 525);
+		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(chat);
 		chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
 		chat.setFont(new Font("Arial", Font.PLAIN, 18)); // Ändrar Font och storlek
