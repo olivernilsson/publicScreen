@@ -85,17 +85,15 @@ public class DrawTestFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(chat);
-		chat.setBackground(new Color(147,192,191));
-		chat.setFont(new Font("Arial", Font.PLAIN, 18));
-		chat.setForeground(Color.white);
+		
+		contentPane.add(chat); //Lägger till chatt ruta
+		chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
+		chat.setFont(new Font("Arial", Font.PLAIN, 18)); // Ändrar Font och storlek
+		chat.setForeground(Color.white); //Ändrar färg på texten
 	
 		setContentPane(contentPane);
 		
-		
-		
-		
-		
+								
 
 	    //coordinates = new ArrayList<Drawing>();
 		
