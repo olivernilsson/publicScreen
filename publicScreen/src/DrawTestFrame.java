@@ -87,12 +87,12 @@ public class DrawTestFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(418, 5, 356, 524);
+		panel.setBounds(507, 0, 267, 529);
 		contentPane.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(chat);
 		chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
-		chat.setFont(new Font("Arial", Font.PLAIN, 18)); // Ändrar Font och storlek
+		chat.setFont(new Font("Arial", Font.PLAIN, 16)); // Ändrar Font och storlek
 		chat.setForeground(Color.white); //Ändrar färg på texten
 	
 		setContentPane(contentPane);
@@ -162,7 +162,7 @@ public class DrawTestFrame extends JFrame {
 								
 								String tempX = dataSnapshot.getValue().toString();
 								int intX = Integer.parseInt(tempX);
-								user.setX(intX+100);
+								user.setX(intX+180);
 								
 								
 							}
@@ -170,7 +170,7 @@ public class DrawTestFrame extends JFrame {
 							if(dataSnapshot.getKey().equals("y")){
 								String tempY = dataSnapshot.getValue().toString();
 								int intY = Integer.parseInt(tempY);
-								user.setY(intY+100);
+								user.setY(intY+220);
 								
 							}
 							users.add(user);
