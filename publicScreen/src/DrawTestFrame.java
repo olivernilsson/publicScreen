@@ -88,6 +88,7 @@ public class DrawTestFrame extends JFrame {
 		contentPane.add(chat);
 		chat.setBackground(new Color(147,192,191));
 		chat.setFont(new Font("Arial", Font.PLAIN, 18));
+		chat.setForeground(Color.white);
 	
 		setContentPane(contentPane);
 		
