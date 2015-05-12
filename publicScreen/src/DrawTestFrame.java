@@ -1,7 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.TextArea;
@@ -17,6 +19,7 @@ import java.util.Vector;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -41,13 +44,20 @@ public class DrawTestFrame extends JFrame {
 	Firebase firebasechat = new Firebase("https://brilliant-fire-8250.firebaseio.com/chat/");
 	
 	TextArea chat = new TextArea();
+	TextField field = new TextField();
+	
+	
+	
 	
 	//change to vector
-    Vector<String> author = new Vector<String>();
-    Vector<String> msg = new Vector<String>();
+   Vector <String> author = new Vector <String> ();
+   Vector<String> msg = new Vector<String>();
 	
 	private Graphics g;
 	private Vector<Drawing> users = new Vector<Drawing>();
+	
+
+	
 
 	/**
 	 * Launch the application.
@@ -77,8 +87,12 @@ public class DrawTestFrame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(chat);
 		chat.setBackground(new Color(147,192,191));
-
+		chat.setFont(new Font("Arial", Font.PLAIN, 18));
+	
 		setContentPane(contentPane);
+		
+		
+		
 		
 		
 
@@ -241,6 +255,8 @@ public class DrawTestFrame extends JFrame {
                                     // L�gger till data fr�n arraylist "author" och "msg" till TextArea chat
                                     for (int i = 0; i < msg.size(); i++){
                                             chat.append(author.get(i) + ":  " + msg.get(i) + "\n");
+                                           
+                                           
                                            
                                     }
                            
