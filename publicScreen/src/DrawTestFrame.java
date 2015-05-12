@@ -37,7 +37,7 @@ public class DrawTestFrame extends JFrame {
 	private String tempurl = "";
 	private int dir;
 
-	
+	String splitter;
 	String prevtempurl ="";
 	private JPanel contentPane;
 	Firebase firebase = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/");
@@ -256,10 +256,17 @@ public class DrawTestFrame extends JFrame {
                            
                                     }
                                     // L�gger till data fr�n arraylist "author" och "msg" till TextArea chat
-                                    for (int i = 0; i < msg.size(); i++){
-                                            chat.append(author.get(i) + ":  " + msg.get(i) + "\n");
-                                           
-                                           
+                                    chat.setText(null);
+                                    for (int i = 0; i < author.size(); i++){
+                                    		if(i==(author.size()-1)){
+                                    			splitter="";
+                                    		}
+                                    		
+                                    		else{
+                                    			
+                                    			splitter="\n";
+                                    		}
+                                            chat.append(author.get(i) + ":  " + msg.get(i) + splitter);
                                            
                                     }
                            
