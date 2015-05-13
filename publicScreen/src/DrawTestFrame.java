@@ -37,7 +37,9 @@ public class DrawTestFrame extends JFrame {
 	private String tempurl = "";
 	private int dir;
 
+	//används för att göra en by rad i chatten
 	String splitter;
+	//håller den genererade URLen för att gå ner i databasen
 	String prevtempurl ="";
 	private JPanel contentPane;
 	Firebase firebase = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/");
@@ -54,6 +56,7 @@ public class DrawTestFrame extends JFrame {
    Vector<String> msg = new Vector<String>();
 	
 	private Graphics g;
+	//vector som håller det som ska ritas ut
 	private Vector<Drawing> users = new Vector<Drawing>();
 	
 
@@ -124,7 +127,7 @@ public class DrawTestFrame extends JFrame {
 	        		
 	        	}
 	        	 
-	        	
+	        	//URL för att hämta punkterna som ska ritas ut från databasen
 	        	Firebase firebasetemp = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/" + tempurl + "/points/");
 	        	
 	        	firebasetemp.addChildEventListener(new ChildEventListener() {
@@ -138,6 +141,7 @@ public class DrawTestFrame extends JFrame {
 					@Override
 					public void onChildAdded(DataSnapshot snapshot, String arg1) {
 						
+						//Hämtar innehållet i databasen
 						Iterable<DataSnapshot> dsList= snapshot.getChildren();
 						
 						prevtempurl = snapshot.getKey();
@@ -157,7 +161,7 @@ public class DrawTestFrame extends JFrame {
 							System.out.print("   Key: "+dataSnapshot.getKey() + " = " + dataSnapshot.getValue());
 
 							
-							
+							//letar upp och lägger till x kordinaterna i objektet
 							if(dataSnapshot.getKey().equals("x")){
 								
 								String tempX = dataSnapshot.getValue().toString();
@@ -167,15 +171,18 @@ public class DrawTestFrame extends JFrame {
 								
 							}
 							
+							//letar upp och lägger till y kordinaterna i objektet
 							if(dataSnapshot.getKey().equals("y")){
 								String tempY = dataSnapshot.getValue().toString();
 								int intY = Integer.parseInt(tempY);
 								user.setY(intY+220);
 								
 							}
+							//lägger till objekten i vectorn
 							users.add(user);
 							 
 						}
+						//målar om skärmen
 						repaint();
 					
 						
@@ -258,6 +265,7 @@ public class DrawTestFrame extends JFrame {
                                     // Lï¿½gger till data frï¿½n arraylist "author" och "msg" till TextArea chat
                                     chat.setText(null);
                                     for (int i = 0; i < author.size(); i++){
+                                    	//gör så att den sista raden inte 
                                     		if(i==(author.size()-1)){
                                     			splitter="";
                                     		}
@@ -269,6 +277,7 @@ public class DrawTestFrame extends JFrame {
                                             chat.append(author.get(i) + ":  " + msg.get(i) + splitter);
                                            
                                     }
+                                    //gör att chatten inte går att ta bort med backspace
                            chat.setEditable(false);
                     }
 
