@@ -269,7 +269,7 @@ public class DrawTestFrame extends JFrame {
                                             chat.append(author.get(i) + ":  " + msg.get(i) + splitter);
                                            
                                     }
-                           
+                           chat.setEditable(false);
                     }
 
                     @Override
