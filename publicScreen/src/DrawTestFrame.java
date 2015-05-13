@@ -38,7 +38,7 @@ public class DrawTestFrame extends JFrame {
 	private int dir;
 
 	//används för att göra en by rad i chatten
-	String splitter;
+	String splitter= "\n";
 	//håller den genererade URLen för att gå ner i databasen
 	String prevtempurl ="";
 	private JPanel contentPane;
@@ -266,7 +266,7 @@ public class DrawTestFrame extends JFrame {
                                     chat.setText(null);
                                     for (int i = 0; i < author.size(); i++){
                                     	//gör så att den sista raden inte 
-                                    		if(i==(author.size()-1)){
+                                    		if(i==(author.size()-1) && i != 0){
                                     			splitter="";
                                     		}
                                     		
