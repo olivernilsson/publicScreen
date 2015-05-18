@@ -21,8 +21,10 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultCaret;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -45,10 +47,11 @@ public class DrawTestFrame extends JFrame {
 	Firebase firebase = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/");
 	Firebase firebasechat = new Firebase("https://brilliant-fire-8250.firebaseio.com/chat/");
 	
-	TextArea chat = new TextArea();
+	JTextArea chat = new JTextArea();
+	DefaultCaret caret = (DefaultCaret)chat.getCaret();
 	TextField field = new TextField();
 	
-	
+	int testtest;
 	
 	
 	//change to vector
@@ -89,15 +92,18 @@ public class DrawTestFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		
+		/*
 		JPanel panel = new JPanel();
-		panel.setBounds(507, 0, 267, 529);
+
+		panel.setBounds(testtest, 0, 267, 529);
 		contentPane.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(chat);
 		chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
 		chat.setFont(new Font("Arial", Font.PLAIN, 16)); // Ändrar Font och storlek
 		chat.setForeground(Color.white); //Ändrar färg på texten
-	
+		
+	*/
 		setContentPane(contentPane);
 		
 								
@@ -264,6 +270,7 @@ public class DrawTestFrame extends JFrame {
                                     }
                                     // Lï¿½gger till data frï¿½n arraylist "author" och "msg" till TextArea chat
                                     chat.setText(null);
+                                    
                                     for (int i = 0; i < author.size(); i++){
                                     	//gör så att den sista raden inte 
                                     		if(i==(author.size()-1) && i != 0){
@@ -302,7 +309,6 @@ public class DrawTestFrame extends JFrame {
            
         });
 
-	    
 	}
 	
 	
@@ -312,7 +318,8 @@ public class DrawTestFrame extends JFrame {
 		super.paint(g);
 		Graphics2D g2= (Graphics2D) g;
 		g2.setColor(Color.WHITE);
-		g2.fillRect(0, 0, getSize().width, getSize().height);
+		g2.fillRect(0, 0, getSize().width-(chat.getWidth()), getSize().height);
+		testtest = getSize().width-(chat.getWidth()+17);
 		g2.setColor(Color.BLACK);
 		
 		//g.drawString("ScreenNbr: "+Constants.screenNbr, 10,  20);
@@ -328,6 +335,21 @@ public class DrawTestFrame extends JFrame {
 			
 			//g.drawString(drawing.getId(),x+15,y+15);
 		}
-		
+		testclass();
 	}
+
+
+public void testclass(){
+	
+	JPanel panel = new JPanel();
+
+	panel.setBounds(testtest, 0, 267, 529);
+	contentPane.add(panel);
+	panel.setLayout(new BorderLayout(0, 0));
+	panel.add(chat);
+	chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
+	chat.setFont(new Font("Arial", Font.PLAIN, 16)); // Ändrar Font och storlek
+	chat.setForeground(Color.white); //Ändrar färg på texten
+	
+}
 }
