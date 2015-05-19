@@ -88,12 +88,14 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			public void run() {
 				try {
 					DrawTestFrame frame = new DrawTestFrame();
-					frame.setVisible(true);
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
+		
 	}
 
 	/**
@@ -107,7 +109,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		
+		setFullscreen(true);
 		/*
 		JPanel panel = new JPanel();
 
@@ -188,7 +190,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 								
 								String tempX = dataSnapshot.getValue().toString();
 								int intX = Integer.parseInt(tempX);
-								user.setX(intX+180);
+								user.setX(intX+90);
 								
 								
 							}
@@ -197,7 +199,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 							if(dataSnapshot.getKey().equals("y")){
 								String tempY = dataSnapshot.getValue().toString();
 								int intY = Integer.parseInt(tempY);
-								user.setY(intY+220);
+								user.setY(intY+110);
 								
 							}
 							//lägger till objekten i vectorn
@@ -339,6 +341,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		testtest = getSize().width*0.75-17;
 		testtest2 = getSize().width*0.25;
 		g2.setColor(Color.BLACK);
+		g2.scale(4, 4);
 		
 		//g.drawString("ScreenNbr: "+Constants.screenNbr, 10,  20);
 		//Test
@@ -362,7 +365,7 @@ public void testclass(){
 	
 	JPanel panel = new JPanel();
 
-	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (testtest2 = getSize().width*0.25), getSize().height-20);
+	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (testtest2 = getSize().width*0.25), screenSize.height-1);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
 	panel.add(scrolll);
