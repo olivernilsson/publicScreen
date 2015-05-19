@@ -2,12 +2,18 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.KeyEventDispatcher;
 import java.awt.TextArea;
 import java.awt.TextField;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,7 +42,7 @@ import com.firebase.client.core.Path;
 
 
 //Vi vill h�mta kordinaterna fr�n databasen och rita ut dem p� sk�rmen.
-public class DrawTestFrame extends JFrame {
+public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	private String tempurl = "";
 	private int dir;
 
@@ -56,6 +62,12 @@ public class DrawTestFrame extends JFrame {
 	double testtest;
 	double testtest2;
 	double testtest3;
+	
+	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
+	
+	private boolean inFullScreenMode = false;
+	
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	//change to vector
    Vector <String> author = new Vector <String> ();
@@ -90,11 +102,12 @@ public class DrawTestFrame extends JFrame {
 	public DrawTestFrame() {
 		//TextArea chat = new TextArea();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, screenSize.width, screenSize.height);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
 		/*
 		JPanel panel = new JPanel();
 
@@ -341,6 +354,7 @@ public class DrawTestFrame extends JFrame {
 			//g.drawString(drawing.getId(),x+15,y+15);
 		}
 		testclass();
+		//setFullscreen(true);
 	}
 
 
@@ -348,7 +362,7 @@ public void testclass(){
 	
 	JPanel panel = new JPanel();
 
-	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (testtest2 = getSize().width*0.25), getSize().height);
+	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (testtest2 = getSize().width*0.25), getSize().height-20);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
 	panel.add(scrolll);
@@ -359,5 +373,40 @@ public void testclass(){
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	
 	
+}
+
+public void setFullscreen(boolean fullscreen) {
+	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	     GraphicsDevice[] gd = ge.getScreenDevices();    
+		 if(fullscreen){
+			 PrevX = getX();
+				PrevY = getY();
+				PrevWidth = getWidth();
+				PrevHeight = getHeight();
+				dispose();
+			//Always on last screen!
+			//setUndecorated(true);
+			gd[gd.length-1].setFullScreenWindow(this);
+			setVisible(true);
+			this.inFullScreenMode = true;
+		}
+		else{
+			setVisible(true);
+			setBounds(PrevX, PrevY, PrevWidth, PrevHeight);
+			dispose();
+			setUndecorated(false);
+			setVisible(true);
+			this.inFullScreenMode = false;
+		}
+}
+
+@Override
+public boolean dispatchKeyEvent(KeyEvent e) {
+   if (e.getID() == KeyEvent.KEY_TYPED) {
+   	 if(e.getKeyChar()=='f'){     		 
+         	setFullscreen(!inFullScreenMode);	
+ 		}
+    }
+    return false;
 }
 }
