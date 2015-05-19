@@ -102,12 +102,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	public DrawTestFrame() {
 		//TextArea chat = new TextArea();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, screenSize.width, screenSize.height);
+		setBounds(0, 0, screenSize.width, screenSize.height);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(null);
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		//setFullscreen(true);
+		setFullscreen(true);
 		/*
 		JPanel panel = new JPanel();
 
@@ -396,7 +396,7 @@ public void chatSettings(){
 	
 	JPanel panel = new JPanel();
 
-	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (getSize().width*0.25), screenSize.height-1);
+	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (getSize().width*0.25), screenSize.height-45);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
 	panel.add(scrolll);
@@ -413,8 +413,8 @@ public void setFullscreen(boolean fullscreen) {
 	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	     GraphicsDevice[] gd = ge.getScreenDevices();    
 		 if(fullscreen){
-			 PrevX = getX();
-				PrevY = getY();
+			 PrevX = 0;
+				PrevY = 0;
 				PrevWidth = getWidth();
 				PrevHeight = getHeight();
 				dispose();
