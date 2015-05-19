@@ -190,7 +190,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 								
 								String tempX = dataSnapshot.getValue().toString();
 								int intX = Integer.parseInt(tempX);
-								user.setX(intX+90);
+								user.setX(intX+110);
 								
 								
 							}
@@ -199,7 +199,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 							if(dataSnapshot.getKey().equals("y")){
 								String tempY = dataSnapshot.getValue().toString();
 								int intY = Integer.parseInt(tempY);
-								user.setY(intY+110);
+								user.setY(intY+50);
 								
 							}
 							//lägger till objekten i vectorn
@@ -334,7 +334,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
+		super.paint(g); 
 		Graphics2D g2= (Graphics2D) g;
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
@@ -406,7 +406,7 @@ public void setFullscreen(boolean fullscreen) {
 @Override
 public boolean dispatchKeyEvent(KeyEvent e) {
    if (e.getID() == KeyEvent.KEY_TYPED) {
-   	 if(e.getKeyChar()=='f'){     		 
+   	 if(e.getKeyChar()=='F'){     		 
          	setFullscreen(!inFullScreenMode);	
  		}
     }
