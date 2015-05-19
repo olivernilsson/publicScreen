@@ -53,16 +53,14 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	private JPanel contentPane;
 	Firebase firebase = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/");
 	Firebase firebasechat = new Firebase("https://brilliant-fire-8250.firebaseio.com/chat/");
+	Firebase firebasedraw = new Firebase("https://brilliant-fire-8250.firebaseio.com/");
+	
 	
 	JTextArea chat = new JTextArea();
 	DefaultCaret caret = (DefaultCaret)chat.getCaret();
 	TextField field = new TextField();
 	final JScrollPane scrolll = new JScrollPane(chat);
-	
-	double testtest;
-	double testtest2;
-	double testtest3;
-	
+
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
 	
 	private boolean inFullScreenMode = false;
@@ -88,7 +86,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			public void run() {
 				try {
 					DrawTestFrame frame = new DrawTestFrame();
-					//frame.setVisible(true);
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -109,7 +107,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		setFullscreen(true);
+		//setFullscreen(true);
 		/*
 		JPanel panel = new JPanel();
 
@@ -327,6 +325,41 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
            
            
         });
+        
+        firebasedraw.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onCancelled(FirebaseError arg0) {
+                    // TODO Auto-generated method stub
+                   
+            }
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String arg1) {
+                           
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String arg1) {
+                 
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot arg0, String arg1) {
+                    // TODO Auto-generated method stub
+                   
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+                    // TODO Auto-generated method stub
+            	users.clear();
+                   repaint();
+            }
+   
+   
+});
+
 
 	}
 	
@@ -338,8 +371,6 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		Graphics2D g2= (Graphics2D) g;
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
-		testtest = getSize().width*0.75-17;
-		testtest2 = getSize().width*0.25;
 		g2.setColor(Color.BLACK);
 		g2.scale(4, 4);
 		
@@ -356,16 +387,16 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			
 			//g.drawString(drawing.getId(),x+15,y+15);
 		}
-		testclass();
+		chatSettings();
 		//setFullscreen(true);
 	}
 
 
-public void testclass(){
+public void chatSettings(){
 	
 	JPanel panel = new JPanel();
 
-	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (testtest2 = getSize().width*0.25), screenSize.height-1);
+	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (getSize().width*0.25), screenSize.height-1);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
 	panel.add(scrolll);
