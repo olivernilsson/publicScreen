@@ -199,7 +199,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 							if(dataSnapshot.getKey().equals("y")){
 								String tempY = dataSnapshot.getValue().toString();
 								int intY = Integer.parseInt(tempY);
-								user.setY(intY+50);
+								user.setY(intY+30);
 								
 							}
 							//lägger till objekten i vectorn
@@ -370,7 +370,7 @@ public void testclass(){
 	panel.setLayout(new BorderLayout(0, 0));
 	panel.add(scrolll);
 	chat.setLineWrap(true);
-	chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
+	chat.setBackground(new Color(248,158,2));  //Lägger till bakgrundsfärg
 	chat.setFont(new Font("Arial", Font.PLAIN, 16)); // Ändrar Font och storlek
 	chat.setForeground(Color.white); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
