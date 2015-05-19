@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -50,9 +51,11 @@ public class DrawTestFrame extends JFrame {
 	JTextArea chat = new JTextArea();
 	DefaultCaret caret = (DefaultCaret)chat.getCaret();
 	TextField field = new TextField();
+	final JScrollPane scrolll = new JScrollPane(chat);
 	
-	int testtest;
-	
+	double testtest;
+	double testtest2;
+	double testtest3;
 	
 	//change to vector
    Vector <String> author = new Vector <String> ();
@@ -91,7 +94,7 @@ public class DrawTestFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
-		
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		/*
 		JPanel panel = new JPanel();
 
@@ -286,6 +289,7 @@ public class DrawTestFrame extends JFrame {
                                     }
                                     //gör att chatten inte går att ta bort med backspace
                            chat.setEditable(false);
+                           
                     }
 
                     @Override
@@ -318,8 +322,9 @@ public class DrawTestFrame extends JFrame {
 		super.paint(g);
 		Graphics2D g2= (Graphics2D) g;
 		g2.setColor(Color.WHITE);
-		g2.fillRect(0, 0, getSize().width-(chat.getWidth()), getSize().height);
-		testtest = getSize().width-(chat.getWidth()+17);
+		g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
+		testtest = getSize().width*0.75-17;
+		testtest2 = getSize().width*0.25;
 		g2.setColor(Color.BLACK);
 		
 		//g.drawString("ScreenNbr: "+Constants.screenNbr, 10,  20);
@@ -343,13 +348,16 @@ public void testclass(){
 	
 	JPanel panel = new JPanel();
 
-	panel.setBounds(testtest, 0, 267, 529);
+	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (testtest2 = getSize().width*0.25), getSize().height);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
-	panel.add(chat);
+	panel.add(scrolll);
+	chat.setLineWrap(true);
 	chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
 	chat.setFont(new Font("Arial", Font.PLAIN, 16)); // Ändrar Font och storlek
 	chat.setForeground(Color.white); //Ändrar färg på texten
+	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+	
 	
 }
 }
