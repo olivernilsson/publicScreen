@@ -27,15 +27,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
@@ -67,6 +71,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	DefaultCaret caret = (DefaultCaret)chat.getCaret();
 	TextField field = new TextField();
 	final JScrollPane scrolll = new JScrollPane(chat);
+	String roundWinner;
+	String selectedWord;
+	JLabel label = new JLabel();
+	JLabel label2 = new JLabel();
+	JPanel panel = new JPanel();
 
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
 	
@@ -126,9 +135,88 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	*/
 		setContentPane(contentPane);
 		
-								
+		// Winner / Word listeners
+		Firebase winner = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("roundWinner");
+		winner.addValueEventListener(new ValueEventListener(){
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				roundWinner = dataSnapshot.getValue().toString();
+				
+			}
+			
+		});
+		
+		Firebase selectedword = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("selectedword");
+		selectedword.addValueEventListener(new ValueEventListener(){
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				selectedWord = dataSnapshot.getValue().toString();
+				
+			}
+			
+		});
 
 	    //coordinates = new ArrayList<Drawing>();
+		
+		// Firebase win listener
+		Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
+		gameIsWon.addValueEventListener(new ValueEventListener(){
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				if(dataSnapshot.getValue().toString().equals("false")){
+					contentPane.add(label);
+					contentPane.add(label2);
+					
+					label.setText("Winner: " + roundWinner.toUpperCase());
+					label2.setText("Word: " + selectedWord.toUpperCase());
+					label.setBounds(100, 100, 1000, 200 );
+					label2.setBounds(100, 300, 1000, 200 );
+					label.setFont(new Font("Sefir", Font.BOLD, 40));
+					label2.setFont(new Font("Sefir", Font.BOLD, 40));
+					label2.setForeground(Color.BLACK);
+					label.setForeground(Color.BLACK);			
+					setContentPane(contentPane);
+				}
+				if(dataSnapshot.getValue().toString().equals("true")){
+					if(label.getText() != null){
+					contentPane.remove(label);
+					contentPane.remove(label2);
+					}
+					contentPane.setBackground(Color.WHITE);
+					panel.add(scrolll);
+					setContentPane(contentPane);
+					//SwingUtilities.updateComponentTreeUI(contentPane);
+					contentPane.invalidate();
+					contentPane.revalidate();	
+					contentPane.repaint();
+				}
+
+				
+			}
+			
+		});
+
 		
 		//ï¿½r det rï¿½tt att anvï¿½nda addchildeventlistener nï¿½r vi ska konstant avlyssna kordinater
 	    firebase.addChildEventListener(new ChildEventListener() {
@@ -306,6 +394,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                     }
                                     //gör att chatten inte går att ta bort med backspace
                            chat.setEditable(false);
+                           //repaint();
                            
                     }
 
@@ -326,6 +415,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                             // TODO Auto-generated method stub
                            
                     }
+                    
            
            
         });
@@ -358,8 +448,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
             public void onChildRemoved(DataSnapshot snapshot) {
                     // TODO Auto-generated method stub
             		users.clear();
-                   repaint();
-                   
+                  // repaint();
+                   try {
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                    
             }
    
@@ -404,12 +499,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 
 
 public void chatSettings() throws Exception{
-	
-	
-	
-	
-	
-	JPanel panel = new JPanel();
+
+
 
 	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (getSize().width*0.25), screenSize.height-45);
 	contentPane.add(panel);
@@ -471,3 +562,5 @@ public void loadFont() throws Exception{
 	
 }
 }
+
+
