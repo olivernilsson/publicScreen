@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -14,6 +15,11 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -50,11 +56,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	String splitter= "\n";
 	//håller den genererade URLen för att gå ner i databasen
 	String prevtempurl ="";
+	
 	private JPanel contentPane;
+	
 	Firebase firebase = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/");
 	Firebase firebasechat = new Firebase("https://brilliant-fire-8250.firebaseio.com/chat/");
 	Firebase firebasedraw = new Firebase("https://brilliant-fire-8250.firebaseio.com/");
-	
 	
 	JTextArea chat = new JTextArea();
 	DefaultCaret caret = (DefaultCaret)chat.getCaret();
@@ -74,9 +81,6 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	private Graphics g;
 	//vector som håller det som ska ritas ut
 	private Vector<Drawing> users = new Vector<Drawing>();
-	
-
-	
 
 	/**
 	 * Launch the application.
@@ -188,7 +192,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 								
 								String tempX = dataSnapshot.getValue().toString();
 								int intX = Integer.parseInt(tempX);
-								user.setX(intX+110);
+								user.setX(intX+5);
 								
 								
 							}
@@ -197,7 +201,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 							if(dataSnapshot.getKey().equals("y")){
 								String tempY = dataSnapshot.getValue().toString();
 								int intY = Integer.parseInt(tempY);
-								user.setY(intY+30);
+								user.setY(intY+5);
 								
 							}
 							//lägger till objekten i vectorn
@@ -353,8 +357,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
             @Override
             public void onChildRemoved(DataSnapshot snapshot) {
                     // TODO Auto-generated method stub
-            	users.clear();
+            		users.clear();
                    repaint();
+                   
+                   
             }
    
    
@@ -372,7 +378,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
 		g2.setColor(Color.BLACK);
-		g2.scale(4, 4);
+		g2.scale(5, 3.5);
 		
 		//g.drawString("ScreenNbr: "+Constants.screenNbr, 10,  20);
 		//Test
@@ -380,19 +386,28 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			int x = (user.getX());
 			int y = (user.getY());
 			//g2.setColor(user.getColor());
-			g2.fillOval(x,y, 5, 5);
+			g2.fillOval(x,y, 4, 4);
 			g2.setColor(Color.BLACK);
 			
 			
 			
 			//g.drawString(drawing.getId(),x+15,y+15);
 		}
-		chatSettings();
+		try {
+			chatSettings();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//setFullscreen(true);
 	}
 
 
-public void chatSettings(){
+public void chatSettings() throws Exception{
+	
+	
+	
+	
 	
 	JPanel panel = new JPanel();
 
@@ -401,8 +416,9 @@ public void chatSettings(){
 	panel.setLayout(new BorderLayout(0, 0));
 	panel.add(scrolll);
 	chat.setLineWrap(true);
-	chat.setBackground(new Color(248,158,2));  //Lägger till bakgrundsfärg
-	chat.setFont(new Font("Arial", Font.PLAIN, 16)); // Ändrar Font och storlek
+	chat.setBackground(new Color(208,128,20));  //Lägger till bakgrundsfärg
+	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
+	loadFont();
 	chat.setForeground(Color.white); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	
@@ -413,7 +429,7 @@ public void setFullscreen(boolean fullscreen) {
 	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	     GraphicsDevice[] gd = ge.getScreenDevices();    
 		 if(fullscreen){
-			 PrevX = 0;
+			 	PrevX = 0;
 				PrevY = 0;
 				PrevWidth = getWidth();
 				PrevHeight = getHeight();
@@ -442,5 +458,16 @@ public boolean dispatchKeyEvent(KeyEvent e) {
  		}
     }
     return false;
+	}
+
+public void loadFont() throws Exception{
+	
+	File f = new File("Roboto-Regular.ttf");
+	FileInputStream in = new FileInputStream(f);
+	Font roboto = Font.createFont(Font.TRUETYPE_FONT, in);
+	Font roboto20Pt = roboto.deriveFont(20f);
+	chat.setFont(roboto20Pt);
+	
+	
 }
 }
