@@ -210,8 +210,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                 label2.setText("for someone to draw");
                                
                         } else {
+                        roundWinner = roundWinner.toString().toLowerCase();
                         label.setText(roundWinner);
                         label2.setText(selectedWord);
+                        //label2.setText(selectedWord);
                         winnerLabel.setIcon(new ImageIcon("winner.png"));
                         wordLabel.setIcon(new ImageIcon("word.png"));
                         star1.setIcon(new ImageIcon("litenstar.png"));
