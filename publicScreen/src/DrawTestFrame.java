@@ -77,6 +77,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	JLabel label = new JLabel();
 	JLabel label2 = new JLabel();
 	JLabel winnerLabel = new JLabel();
+	JLabel wordLabel = new JLabel();
 	JLabel star1 = new JLabel();
 	JLabel star2 = new JLabel();
 	JLabel star3 = new JLabel();
@@ -200,6 +201,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.add(label);
                         contentPane.add(label2);
                         contentPane.add(winnerLabel);
+                        contentPane.add(wordLabel);
                         contentPane.add(star1);
                         contentPane.add(star2);
                         contentPane.add(star3);
@@ -211,11 +213,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         label.setText(roundWinner);
                         label2.setText(selectedWord);
                         winnerLabel.setIcon(new ImageIcon("winner.png"));
+                        wordLabel.setIcon(new ImageIcon("word.png"));
                         star1.setIcon(new ImageIcon("litenstar.png"));
                         star2.setIcon(new ImageIcon("star.png"));
                         star3.setIcon(new ImageIcon("starr.png"));
                         }
                 		winnerLabel.setBounds(150, 10, 500, 150);
+                		wordLabel.setBounds(200, 220, 500, 150);
                 		star1.setBounds(590, 201, 116, 71);
                 		star2.setBounds(609, 305, 138, 76);
                 		star3.setBounds(57, 196, 138, 76);
@@ -231,6 +235,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.remove(label);
                         contentPane.remove(label2);
                         contentPane.remove(winnerLabel);
+                        contentPane.remove(wordLabel);
                         contentPane.remove(star1);
                         contentPane.remove(star2);
                         contentPane.remove(star3);
@@ -594,9 +599,9 @@ public void loadFont() throws Exception{
 	File f2 = new File("Giddyup.ttf");
 	FileInputStream in2 = new FileInputStream(f2);
 	Font giddyup = Font.createFont(Font.TRUETYPE_FONT, in2);
-	Font giddyup60Pt = giddyup.deriveFont(80f);
-	label.setFont(giddyup60Pt);
-	label2.setFont(giddyup60Pt);
+	Font giddyup80Pt = giddyup.deriveFont(80f);
+	label.setFont(giddyup80Pt);
+	label2.setFont(giddyup80Pt);
 }
 
 /*
