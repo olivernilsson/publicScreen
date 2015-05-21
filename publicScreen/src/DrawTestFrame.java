@@ -15,6 +15,7 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -75,6 +76,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	String selectedWord ="";
 	JLabel label = new JLabel();
 	JLabel label2 = new JLabel();
+	JLabel winnerLabel = new JLabel();
+	JLabel star1 = new JLabel();
+	JLabel star2 = new JLabel();
+	JLabel star3 = new JLabel();
 	JPanel panel = new JPanel();
 
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
@@ -121,6 +126,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		contentPane.setLayout(null);
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		setFullscreen(true);
+		 
 		/*
 		JPanel panel = new JPanel();
 
@@ -187,6 +193,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 if(dataSnapshot.getValue().toString().equals("false")){
                         contentPane.add(label);
                         contentPane.add(label2);
+                        contentPane.add(winnerLabel);
+                        contentPane.add(star1);
+                        contentPane.add(star2);
+                        contentPane.add(star3);
                         if(roundWinner == ""){
                                 label.setText("The game is waiting");
                                 label2.setText("for someone to draw");
@@ -194,7 +204,15 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         } else {
                         label.setText("Winner: " + roundWinner.toUpperCase());
                         label2.setText("Word: " + selectedWord.toUpperCase());
+                        winnerLabel.setIcon(new ImageIcon("winner.png"));
+                        star1.setIcon(new ImageIcon("litenstar.png"));
+                        star2.setIcon(new ImageIcon("star.png"));
+                        star3.setIcon(new ImageIcon("starr.png"));
                         }
+                		winnerLabel.setBounds(150, 10, 500, 150);
+                		star1.setBounds(590, 201, 116, 71);
+                		star2.setBounds(609, 305, 138, 76);
+                		star3.setBounds(57, 196, 138, 76);
                         label.setBounds(100, 100, 1000, 200 );
                         label2.setBounds(100, 300, 1000, 200 );
                         label.setFont(new Font("Sefir", Font.BOLD, 40));
@@ -207,6 +225,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 if(dataSnapshot.getValue().toString().equals("true")){
                         contentPane.remove(label);
                         contentPane.remove(label2);
+                        contentPane.remove(winnerLabel);
+                        contentPane.remove(star1);
+                        contentPane.remove(star2);
+                        contentPane.remove(star3);
                         contentPane.setBackground(Color.WHITE);
                         panel.add(scrolll);
                         setContentPane(contentPane);
@@ -298,11 +320,16 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 							}
 							//lägger till objekten i vectorn
 							users.add(user);
+
+									
+								
+	
 							 
 						}
 						//målar om skärmen
+						
+						
 						repaint();
-					
 						
 						
 					}
@@ -526,8 +553,8 @@ public void setFullscreen(boolean fullscreen) {
 		 if(fullscreen){
 			 	PrevX = 0;
 				PrevY = 0;
-				PrevWidth = getWidth();
-				PrevHeight = getHeight();
+				PrevWidth = 800;
+				PrevHeight = 600;
 				dispose();
 			//Always on last screen!
 			//setUndecorated(true);
@@ -537,7 +564,7 @@ public void setFullscreen(boolean fullscreen) {
 		}
 		else{
 			setVisible(true);
-			setBounds(PrevX, PrevY, PrevWidth, PrevHeight);
+			setBounds(0, 0, 800, 600);
 			dispose();
 			setUndecorated(false);
 			setVisible(true);
@@ -548,8 +575,9 @@ public void setFullscreen(boolean fullscreen) {
 @Override
 public boolean dispatchKeyEvent(KeyEvent e) {
    if (e.getID() == KeyEvent.KEY_TYPED) {
-   	 if(e.getKeyChar()=='F'){     		 
+   	 if(e.getKeyCode()=='F'){     		 
          	setFullscreen(!inFullScreenMode);	
+         	System.out.println("testtest");
  		}
     }
     return false;
@@ -565,6 +593,17 @@ public void loadFont() throws Exception{
 	
 	
 }
+
+/*
+public void keyPressed(KeyEvent e) {
+
+
+    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+    	setFullscreen(!inFullScreenMode);
+    }
+}
+*/
+
 }
 
 
