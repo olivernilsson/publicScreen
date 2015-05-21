@@ -210,8 +210,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                 label2.setText("for someone to draw");
                                
                         } else {
-                        roundWinner = roundWinner.toString().toLowerCase();
                         label.setText(roundWinner);
+                        selectedWord = selectedWord.substring(0, 1).toUpperCase() + selectedWord.substring(1);
                         label2.setText(selectedWord);
                         //label2.setText(selectedWord);
                         winnerLabel.setIcon(new ImageIcon("winner.png"));
@@ -598,7 +598,7 @@ public void loadFont() throws Exception{
 	Font roboto20Pt = roboto.deriveFont(20f);
 	chat.setFont(roboto20Pt);
 	
-	File f2 = new File("Giddyup.ttf");
+	File f2 = new File("Giddyup-Std_20538.ttf");
 	FileInputStream in2 = new FileInputStream(f2);
 	Font giddyup = Font.createFont(Font.TRUETYPE_FONT, in2);
 	Font giddyup80Pt = giddyup.deriveFont(80f);
