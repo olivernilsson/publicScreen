@@ -539,7 +539,7 @@ public void chatSettings(){
 	panel.setLayout(new BorderLayout(0, 0));
 	panel.add(scrolll);
 	chat.setLineWrap(true);
-	chat.setBackground(new Color(208,128,20));  //Lägger till bakgrundsfärg
+	chat.setBackground(new Color(221,141,2));  //Lägger till bakgrundsfärg
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
 	chat.setForeground(Color.white); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
