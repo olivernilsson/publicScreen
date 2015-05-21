@@ -82,6 +82,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	JLabel star2 = new JLabel();
 	JLabel star3 = new JLabel();
 	JPanel panel = new JPanel();
+	boolean chickenChecker;
+
 
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
 	
@@ -163,6 +165,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				roundWinner = dataSnapshot.getValue().toString();
 				
+				
 			}
 			
 		});
@@ -185,6 +188,30 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		});
 
 	    //coordinates = new ArrayList<Drawing>();
+		// Firebase chicken identifier
+		Firebase isChicken = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("chicken");
+		isChicken.addValueEventListener(new ValueEventListener(){
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				if(dataSnapshot.getValue().toString().equals("beep")){
+					chickenChecker = true;
+				}
+				
+				if(dataSnapshot.getValue().toString().equals("null")){
+					chickenChecker = false;
+				}
+				
+				
+			}
+		
+		});
 		
 		// Firebase win listener
 		Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
@@ -249,6 +276,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.revalidate();      
                         contentPane.repaint();
                 }
+                
 
                
         }
