@@ -61,6 +61,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	String splitter= "\n";
 	//håller den genererade URLen för att gå ner i databasen
 	String prevtempurl ="";
+	String line = "-----------------------------------------------" ;
 	
 	private JPanel contentPane;
 	
@@ -233,8 +234,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.add(star2);
                         contentPane.add(star3);
                         if(roundWinner == ""){
-                                label.setText("The game is waiting");
-                                label2.setText("for someone to draw");
+                            label.setBounds(115, 120, 1000, 200 );
+                            label2.setBounds(115, 300, 1000, 200 );
+                                label.setText("Waiting");
+                                label2.setText("for drawer");
                                
                         } else {
                         label.setText(roundWinner);
@@ -248,12 +251,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         star3.setIcon(new ImageIcon("starr.png"));
                         }
                 		winnerLabel.setBounds(150, 10, 500, 150);
-                		wordLabel.setBounds(200, 220, 500, 150);
+                		wordLabel.setBounds(270, 350, 500, 150);
                 		star1.setBounds(590, 201, 116, 71);
                 		star2.setBounds(609, 305, 138, 76);
-                		star3.setBounds(57, 196, 138, 76);
-                        label.setBounds(200, 100, 1000, 200 );
-                        label2.setBounds(200, 300, 1000, 200 );
+                		star3.setBounds(40, 196, 138, 76);
+                        label.setBounds(235, 160, 1000, 200 );
+                        label2.setBounds(245, 460, 1000, 200 );
 
                         label2.setForeground(Color.ORANGE);
                         label.setForeground(Color.ORANGE);                      
@@ -450,13 +453,15 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                     	//gör så att den sista raden inte 
                                     		if(i==(author.size()-1) && i != 0){
                                     			splitter="";
+                                    			line="";
                                     		}
                                     		
                                     		else{
                                     			
                                     			splitter="\n";
+                                    			line="-----------------------------------------------";
                                     		}
-                                            chat.append(author.get(i) + ":  " + msg.get(i) + splitter);
+                                            chat.append(author.get(i) + ":  " + msg.get(i) + splitter + line + splitter);
                                            
                                     }
                                     //gör att chatten inte går att ta bort med backspace
