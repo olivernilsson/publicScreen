@@ -71,8 +71,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	DefaultCaret caret = (DefaultCaret)chat.getCaret();
 	TextField field = new TextField();
 	final JScrollPane scrolll = new JScrollPane(chat);
-	String roundWinner;
-	String selectedWord;
+	String roundWinner ="";
+	String selectedWord ="";
 	JLabel label = new JLabel();
 	JLabel label2 = new JLabel();
 	JPanel panel = new JPanel();
@@ -133,6 +133,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		chat.setForeground(Color.white); //Ändrar färg på texten
 		
 	*/
+		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		
 		// Winner / Word listeners
@@ -182,40 +183,43 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 				
 			}
 
-			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				if(dataSnapshot.getValue().toString().equals("false")){
-					contentPane.add(label);
-					contentPane.add(label2);
-					
-					label.setText("Winner: " + roundWinner.toUpperCase());
-					label2.setText("Word: " + selectedWord.toUpperCase());
-					label.setBounds(100, 100, 1000, 200 );
-					label2.setBounds(100, 300, 1000, 200 );
-					label.setFont(new Font("Sefir", Font.BOLD, 40));
-					label2.setFont(new Font("Sefir", Font.BOLD, 40));
-					label2.setForeground(Color.BLACK);
-					label.setForeground(Color.BLACK);			
-					setContentPane(contentPane);
-				}
-				if(dataSnapshot.getValue().toString().equals("true")){
-					if(label.getText() != null){
-					contentPane.remove(label);
-					contentPane.remove(label2);
-					}
-					contentPane.setBackground(Color.WHITE);
-					panel.add(scrolll);
-					setContentPane(contentPane);
-					//SwingUtilities.updateComponentTreeUI(contentPane);
-					contentPane.invalidate();
-					contentPane.revalidate();	
-					contentPane.repaint();
-				}
+                if(dataSnapshot.getValue().toString().equals("false")){
+                        contentPane.add(label);
+                        contentPane.add(label2);
+                        if(roundWinner == ""){
+                                label.setText("The game is waiting");
+                                label2.setText("for someone to draw");
+                               
+                        } else {
+                        label.setText("Winner: " + roundWinner.toUpperCase());
+                        label2.setText("Word: " + selectedWord.toUpperCase());
+                        }
+                        label.setBounds(100, 100, 1000, 200 );
+                        label2.setBounds(100, 300, 1000, 200 );
+                        label.setFont(new Font("Sefir", Font.BOLD, 40));
+                        label2.setFont(new Font("Sefir", Font.BOLD, 40));
+                        label2.setForeground(Color.BLACK);
+                        label.setForeground(Color.BLACK);                      
+                        setContentPane(contentPane);
+                       
+                }
+                if(dataSnapshot.getValue().toString().equals("true")){
+                        contentPane.remove(label);
+                        contentPane.remove(label2);
+                        contentPane.setBackground(Color.WHITE);
+                        panel.add(scrolll);
+                        setContentPane(contentPane);
+                        //SwingUtilities.updateComponentTreeUI(contentPane);
+                        contentPane.invalidate();
+                        contentPane.revalidate();      
+                        contentPane.repaint();
+                }
 
-				
-			}
-			
-		});
+               
+        }
+       
+});
 
 		
 		//ï¿½r det rï¿½tt att anvï¿½nda addchildeventlistener nï¿½r vi ska konstant avlyssna kordinater
@@ -470,8 +474,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	public void paint(Graphics g) {
 		super.paint(g); 
 		Graphics2D g2= (Graphics2D) g;
-		g2.setColor(Color.WHITE);
-		g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
+		//g2.setColor(Color.WHITE);
+		//g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
 		g2.setColor(Color.BLACK);
 		g2.scale(5, 3.5);
 		
