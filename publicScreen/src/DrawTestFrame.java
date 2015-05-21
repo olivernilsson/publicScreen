@@ -125,6 +125,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(null);
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		try {
+			loadFont();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setFullscreen(true);
 		 
 		/*
@@ -202,8 +208,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                 label2.setText("for someone to draw");
                                
                         } else {
-                        label.setText("Winner: " + roundWinner.toUpperCase());
-                        label2.setText("Word: " + selectedWord.toUpperCase());
+                        label.setText(roundWinner);
+                        label2.setText(selectedWord);
                         winnerLabel.setIcon(new ImageIcon("winner.png"));
                         star1.setIcon(new ImageIcon("litenstar.png"));
                         star2.setIcon(new ImageIcon("star.png"));
@@ -213,12 +219,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 		star1.setBounds(590, 201, 116, 71);
                 		star2.setBounds(609, 305, 138, 76);
                 		star3.setBounds(57, 196, 138, 76);
-                        label.setBounds(100, 100, 1000, 200 );
-                        label2.setBounds(100, 300, 1000, 200 );
-                        label.setFont(new Font("Sefir", Font.BOLD, 40));
-                        label2.setFont(new Font("Sefir", Font.BOLD, 40));
-                        label2.setForeground(Color.BLACK);
-                        label.setForeground(Color.BLACK);                      
+                        label.setBounds(200, 100, 1000, 200 );
+                        label2.setBounds(200, 300, 1000, 200 );
+
+                        label2.setForeground(Color.ORANGE);
+                        label.setForeground(Color.ORANGE);                      
                         setContentPane(contentPane);
                        
                 }
@@ -320,11 +325,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 							}
 							//lägger till objekten i vectorn
 							users.add(user);
-
-									
-								
-	
-							 
+ 
 						}
 						//målar om skärmen
 						
@@ -529,7 +530,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	}
 
 
-public void chatSettings() throws Exception{
+public void chatSettings(){
 
 
 
@@ -540,7 +541,6 @@ public void chatSettings() throws Exception{
 	chat.setLineWrap(true);
 	chat.setBackground(new Color(208,128,20));  //Lägger till bakgrundsfärg
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
-	loadFont();
 	chat.setForeground(Color.white); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	
@@ -591,7 +591,12 @@ public void loadFont() throws Exception{
 	Font roboto20Pt = roboto.deriveFont(20f);
 	chat.setFont(roboto20Pt);
 	
-	
+	File f2 = new File("Giddyup.ttf");
+	FileInputStream in2 = new FileInputStream(f2);
+	Font giddyup = Font.createFont(Font.TRUETYPE_FONT, in2);
+	Font giddyup60Pt = giddyup.deriveFont(80f);
+	label.setFont(giddyup60Pt);
+	label2.setFont(giddyup60Pt);
 }
 
 /*
