@@ -464,7 +464,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                     			splitter="\n";
                                     			line="---------------------------------------------------";
                                     		}
-                                            chat.append(author.get(i) + ":  " + msg.get(i) + splitter + line + splitter);
+                                            //chat.append(author.get(i) + ":  " + msg.get(i) + splitter + line + splitter);
+                                            String str =(author.get(i) + ":  " + msg.get(i));
+                                            String str2 = wrapString(str, 27);
+                                            System.out.println(str2);
+                                            chat.append(str2 + splitter + line + splitter);
+
+                                            
                                            
                                     }
                                     //gör att chatten inte går att ta bort med backspace
@@ -634,6 +640,30 @@ public boolean dispatchKeyEvent(KeyEvent e) {
      }
      return false;
 	}
+
+public static String wrapString(String string, int charWrap) {
+    int lastBreak = 0;
+    int nextBreak = charWrap;
+    if (string.length() > charWrap) {
+        String setString = "";
+        do {
+            while (string.charAt(nextBreak) != ' ' && nextBreak > lastBreak) {
+                nextBreak--;
+            }
+            if (nextBreak == lastBreak) {
+                nextBreak = lastBreak + charWrap;
+            }
+            setString += string.substring(lastBreak, nextBreak).trim() + "\n";
+            lastBreak = nextBreak;
+            nextBreak += charWrap;
+
+        } while (nextBreak < string.length());
+        setString += string.substring(lastBreak).trim();
+        return setString;
+    } else {
+        return string;
+    }
+}
 }
 
 
