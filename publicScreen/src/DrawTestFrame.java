@@ -85,6 +85,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	JLabel star3 = new JLabel();
 	JPanel panel = new JPanel();
 	boolean chickenChecker;
+	Color color = new Color(4, 154, 149);
 
 
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
@@ -239,6 +240,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                             label2.setBounds(115, 300, 1000, 200 );
                                 label.setText("Waiting");
                                 label2.setText("for drawer");
+                                label.setForeground(color);
+                                label2.setForeground(color);
                                
                         } else {
                         label.setText(roundWinner);
@@ -250,6 +253,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         star1.setIcon(new ImageIcon("litenstar.png"));
                         star2.setIcon(new ImageIcon("star.png"));
                         star3.setIcon(new ImageIcon("starr.png"));
+                        label2.setForeground(Color.ORANGE);
+                        label.setForeground(Color.ORANGE);
                         }
                 		winnerLabel.setBounds(150, 10, 500, 150);
                 		wordLabel.setBounds(270, 350, 500, 150);
@@ -259,9 +264,9 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         label.setBounds(0, 160, (int) (getSize().width*0.75-17), 200 );
                         label2.setBounds(0, 460, (int) (getSize().width*0.75-17), 200 );
 
-                        label2.setForeground(Color.ORANGE);
+                        //label2.setForeground(Color.ORANGE);
                         label2.setBackground(Color.BLUE);
-                        label.setForeground(Color.ORANGE);
+                        //label.setForeground(Color.ORANGE);
                         label.setBackground(Color.BLUE);
                         setContentPane(contentPane);
                        
@@ -634,12 +639,12 @@ public void loadFont() throws Exception{
 	Font roboto20Pt = roboto.deriveFont(20f);
 	chat.setFont(roboto20Pt);
 	
-	File f2 = new File("Giddyup-Std_20538.ttf");
+	File f2 = new File("Roboto-Regular.ttf");
 	FileInputStream in2 = new FileInputStream(f2);
-	Font giddyup = Font.createFont(Font.TRUETYPE_FONT, in2);
-	Font giddyup80Pt = giddyup.deriveFont(80f);
-	label.setFont(giddyup80Pt);
-	label2.setFont(giddyup80Pt);
+	Font roboto2 = Font.createFont(Font.TRUETYPE_FONT, in2);
+	Font roboto80Pt = roboto2.deriveFont(80f);
+	label.setFont(roboto80Pt);
+	label2.setFont(roboto80Pt);
 }
 
 /*
