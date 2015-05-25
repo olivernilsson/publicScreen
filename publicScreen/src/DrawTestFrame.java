@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
@@ -88,6 +89,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	boolean chickenChecker;
 	Color colorBlue = new Color(4, 154, 149);
 	Color colorOrange = new Color(221, 141, 2);
+	Color colorLightOrange = new Color(255, 195, 126);
+	Color chatTextColor = new Color(100, 95, 88);
 
 
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
@@ -139,20 +142,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager(); //Listen to keyboard
+	    manager.addKeyEventDispatcher(this);
 		setFullscreen(true);
-		 
-		/*
-		JPanel panel = new JPanel();
 
-		panel.setBounds(testtest, 0, 267, 529);
-		contentPane.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));
-		panel.add(chat);
-		chat.setBackground(new Color(147,192,191));  //Lägger till bakgrundsfärg
-		chat.setFont(new Font("Arial", Font.PLAIN, 16)); // Ändrar Font och storlek
-		chat.setForeground(Color.white); //Ändrar färg på texten
-		
-	*/
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		
@@ -431,7 +424,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	    
 	    });
 	    
-	    // Lï¿½ser av chatt frï¿½n Firebase
+	    //Reads the chat from firebase and adds it to the chat vector
         firebasechat.addChildEventListener(new ChildEventListener() {
 
                     @Override
@@ -502,6 +495,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
            
         });
         
+        //Empties the drawing vector
         firebasedraw.addChildEventListener(new ChildEventListener() {
 
             @Override
@@ -570,21 +564,29 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			
 			//g.drawString(drawing.getId(),x+15,y+15);
 		}
-		try {
 			chatSettings();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//setFullscreen(true);
+	}
+	
+public void loadFont() throws Exception{
+		
+	File f = new File("Roboto-Regular.ttf");
+	FileInputStream in = new FileInputStream(f);
+	Font roboto = Font.createFont(Font.TRUETYPE_FONT, in);
+	Font roboto20Pt = roboto.deriveFont(20f);
+	chat.setFont(roboto20Pt);
+		
+	File f2 = new File("Roboto-Regular.ttf");
+	FileInputStream in2 = new FileInputStream(f2);
+	Font roboto2 = Font.createFont(Font.TRUETYPE_FONT, in2);
+	Font roboto80Pt = roboto2.deriveFont(80f);
+	label.setFont(roboto80Pt);
+	label2.setFont(roboto80Pt);
 	}
 
 
 public void chatSettings(){
 
-
-
-	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (getSize().width*0.25), screenSize.height-45);
+	panel.setBounds((int) (getSize().width*0.75), 0, (int) (getSize().width*0.25), screenSize.height);
 	panel.setBorder(null);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
@@ -594,74 +596,44 @@ public void chatSettings(){
 	chat.setLineWrap(true);
 	chat.setBackground(Color.WHITE);  //Lägger till bakgrundsfärg
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
-	chat.setForeground(colorOrange); //Ändrar färg på texten
-	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-	
-	
+	chat.setForeground(chatTextColor); //Ändrar färg på texten
+	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	
 }
 
 public void setFullscreen(boolean fullscreen) {
 	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	     GraphicsDevice[] gd = ge.getScreenDevices();    
-		 if(fullscreen){
-			 	PrevX = 0;
-				PrevY = 0;
-				PrevWidth = 800;
-				PrevHeight = 600;
+	     if(fullscreen){
+				PrevX = getX();
+				PrevY = getY();
+				PrevWidth = getWidth();
+				PrevHeight = getHeight();
+				dispose(); 
+				//Always on last screen!
+				setUndecorated(true);
+				gd[gd.length-1].setFullScreenWindow(this);
+				setVisible(true);
+				this.inFullScreenMode = true;
+			}
+			else{
+				setVisible(true);
+				setBounds(PrevX, PrevY, PrevWidth, PrevHeight);
 				dispose();
-			//Always on last screen!
-			//setUndecorated(true);
-			gd[gd.length-1].setFullScreenWindow(this);
-			setVisible(true);
-			this.inFullScreenMode = true;
-		}
-		else{
-			setVisible(true);
-			setBounds(0, 0, 800, 600);
-			dispose();
-			setUndecorated(false);
-			setVisible(true);
-			this.inFullScreenMode = false;
-		}
+				setUndecorated(false);
+				setVisible(true);
+				this.inFullScreenMode = false;
+			}
 }
 
 @Override
 public boolean dispatchKeyEvent(KeyEvent e) {
-   if (e.getID() == KeyEvent.KEY_TYPED) {
-   	 if(e.getKeyCode()=='F'){     		 
-         	setFullscreen(!inFullScreenMode);	
-         	System.out.println("testtest");
- 		}
-    }
-    return false;
+    if (e.getID() == KeyEvent.KEY_TYPED) {
+    	 if(e.getKeyChar()=='f'){     		 
+          	setFullscreen(!inFullScreenMode);	
+  		}
+     }
+     return false;
 	}
-
-public void loadFont() throws Exception{
-	
-	File f = new File("Roboto-Regular.ttf");
-	FileInputStream in = new FileInputStream(f);
-	Font roboto = Font.createFont(Font.TRUETYPE_FONT, in);
-	Font roboto20Pt = roboto.deriveFont(20f);
-	chat.setFont(roboto20Pt);
-	
-	File f2 = new File("Roboto-Regular.ttf");
-	FileInputStream in2 = new FileInputStream(f2);
-	Font roboto2 = Font.createFont(Font.TRUETYPE_FONT, in2);
-	Font roboto80Pt = roboto2.deriveFont(80f);
-	label.setFont(roboto80Pt);
-	label2.setFont(roboto80Pt);
-}
-
-/*
-public void keyPressed(KeyEvent e) {
-
-
-    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-    	setFullscreen(!inFullScreenMode);
-    }
-}
-*/
-
 }
 
 
