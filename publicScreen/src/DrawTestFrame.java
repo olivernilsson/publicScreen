@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
@@ -75,8 +76,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	final JScrollPane scrolll = new JScrollPane(chat);
 	String roundWinner ="";
 	String selectedWord ="";
-	JLabel label = new JLabel();
-	JLabel label2 = new JLabel();
+	JLabel label = new JLabel("The Label", SwingConstants.CENTER);
+	JLabel label2 = new JLabel("The Label", SwingConstants.CENTER);
 	JLabel winnerLabel = new JLabel();
 	JLabel wordLabel = new JLabel();
 	JLabel star1 = new JLabel();
@@ -255,11 +256,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 		star1.setBounds(590, 201, 116, 71);
                 		star2.setBounds(609, 305, 138, 76);
                 		star3.setBounds(40, 196, 138, 76);
-                        label.setBounds(235, 160, 1000, 200 );
-                        label2.setBounds(245, 460, 1000, 200 );
+                        label.setBounds(0, 160, (int) (getSize().width*0.75-17), 200 );
+                        label2.setBounds(0, 460, (int) (getSize().width*0.75-17), 200 );
 
                         label2.setForeground(Color.ORANGE);
-                        label.setForeground(Color.ORANGE);                      
+                        label2.setBackground(Color.BLUE);
+                        label.setForeground(Color.ORANGE);
+                        label.setBackground(Color.BLUE);
                         setContentPane(contentPane);
                        
                 }
@@ -349,7 +352,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 								
 								String tempX = dataSnapshot.getValue().toString();
 								int intX = Integer.parseInt(tempX);
-								user.setX(intX+5);
+								user.setX(intX+20);
 								
 								
 							}
