@@ -59,6 +59,7 @@ import com.firebase.client.core.Path;
 public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	private String tempurl = "";
 	private int dir;
+	private boolean legitWin = false;
 
 	//används för att göra en by rad i chatten
 	String splitter= "\n";
@@ -672,19 +673,52 @@ final JLabel timerFrame = new JLabel();
 contentPane.add(timerFrame);
 timerFrame.setVisible(true);
 timerFrame.setSize(400,20);
+legitWin = false;
+
+final Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
+final Firebase gameIsOver = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("chicken");
 new Timer().schedule(new TimerTask(){
 
-    int second = 5;
+    int second = 15;
     @Override
     public void run() {
         timerFrame.setText("Application will close in " + second-- + " seconds.");
+        gameIsWon.addValueEventListener(new ValueEventListener(){
+
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				
+				if(dataSnapshot.getValue().toString().equals("false")){
+					legitWin = true;
+					gameIsOver.setValue("null");
+					second = 0;
+		        	timerFrame.removeAll();
+		        	
+				}
+				
+			}
+        	
+        });
         if(second<0){
+        	this.cancel();
         	timerFrame.removeAll();
         	contentPane.remove(timerFrame);
-        	repaint();
+        	
+        	gameIsWon.setValue("false");
+        	if(!legitWin){
+        	gameIsOver.setValue("beep");
+        	}
+        	
         }
     }   
 },0, 1000);
+
 }
 }
 
