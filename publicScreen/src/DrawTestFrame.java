@@ -86,8 +86,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	JLabel star3 = new JLabel();
 	JPanel panel = new JPanel();
 	boolean chickenChecker;
-	Color color = new Color(4, 154, 149);
-	Color color2 = new Color(221, 141, 2);
+	Color colorBlue = new Color(4, 154, 149);
+	Color colorOrange = new Color(221, 141, 2);
 
 
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
@@ -242,8 +242,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                             label2.setBounds(115, 300, 1000, 200 );
                                 label.setText("Waiting");
                                 label2.setText("for drawer");
-                                label.setForeground(color);
-                                label2.setForeground(color);
+                                label.setForeground(colorBlue);
+                                label2.setForeground(colorBlue);
                                
                         } else {
                         label.setText(roundWinner);
@@ -255,8 +255,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         star1.setIcon(new ImageIcon("litenstar.png"));
                         star2.setIcon(new ImageIcon("star.png"));
                         star3.setIcon(new ImageIcon("starr.png"));
-                        label2.setForeground(color2);
-                        label.setForeground(color2);
+                        label2.setForeground(colorOrange);
+                        label.setForeground(colorOrange);
                         }
                 		winnerLabel.setBounds(150, 10, 500, 150);
                 		wordLabel.setBounds(270, 350, 500, 150);
@@ -594,7 +594,7 @@ public void chatSettings(){
 	chat.setLineWrap(true);
 	chat.setBackground(Color.WHITE);  //Lägger till bakgrundsfärg
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
-	chat.setForeground(color2); //Ändrar färg på texten
+	chat.setForeground(colorOrange); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	
 	
