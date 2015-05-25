@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
@@ -62,7 +63,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	String splitter= "\n";
 	//håller den genererade URLen för att gå ner i databasen
 	String prevtempurl ="";
-	String line = "-----------------------------------------------" ;
+	String line = "---------------------------------------------------" ;
 	
 	private JPanel contentPane;
 	
@@ -86,6 +87,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	JPanel panel = new JPanel();
 	boolean chickenChecker;
 	Color color = new Color(4, 154, 149);
+	Color color2 = new Color(221, 141, 2);
 
 
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
@@ -253,8 +255,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         star1.setIcon(new ImageIcon("litenstar.png"));
                         star2.setIcon(new ImageIcon("star.png"));
                         star3.setIcon(new ImageIcon("starr.png"));
-                        label2.setForeground(Color.ORANGE);
-                        label.setForeground(Color.ORANGE);
+                        label2.setForeground(color2);
+                        label.setForeground(color2);
                         }
                 		winnerLabel.setBounds(150, 10, 500, 150);
                 		wordLabel.setBounds(270, 350, 500, 150);
@@ -467,7 +469,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                     		else{
                                     			
                                     			splitter="\n";
-                                    			line="-----------------------------------------------";
+                                    			line="---------------------------------------------------";
                                     		}
                                             chat.append(author.get(i) + ":  " + msg.get(i) + splitter + line + splitter);
                                            
@@ -583,13 +585,16 @@ public void chatSettings(){
 
 
 	panel.setBounds((int) (getSize().width*0.75-17), 0, (int) (getSize().width*0.25), screenSize.height-45);
+	panel.setBorder(null);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
+	scrolll.setBorder(null);
+	scrolll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
 	panel.add(scrolll);
 	chat.setLineWrap(true);
-	chat.setBackground(new Color(221,141,2));  //Lägger till bakgrundsfärg
+	chat.setBackground(Color.WHITE);  //Lägger till bakgrundsfärg
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
-	chat.setForeground(Color.white); //Ändrar färg på texten
+	chat.setForeground(color2); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	
 	
