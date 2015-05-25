@@ -250,6 +250,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         star3.setIcon(new ImageIcon("starr.png"));
                         label2.setForeground(colorOrange);
                         label.setForeground(colorOrange);
+                        
                         }
                 		winnerLabel.setBounds(150, 10, 500, 150);
                 		wordLabel.setBounds(270, 350, 500, 150);
@@ -281,6 +282,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.invalidate();
                         contentPane.revalidate();      
                         contentPane.repaint();
+                        timer();
                 }
                 
 
@@ -366,10 +368,10 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 							}
 							//lägger till objekten i vectorn
 							users.add(user);
+							
  
 						}
 						//målar om skärmen
-						
 						
 						repaint();
 						
@@ -663,6 +665,26 @@ public static String wrapString(String string, int charWrap) {
     } else {
         return string;
     }
+}
+
+public void timer(){
+final JLabel timerFrame = new JLabel();
+contentPane.add(timerFrame);
+timerFrame.setVisible(true);
+timerFrame.setSize(400,20);
+new Timer().schedule(new TimerTask(){
+
+    int second = 5;
+    @Override
+    public void run() {
+        timerFrame.setText("Application will close in " + second-- + " seconds.");
+        if(second<0){
+        	timerFrame.removeAll();
+        	contentPane.remove(timerFrame);
+        	repaint();
+        }
+    }   
+},0, 1000);
 }
 }
 
