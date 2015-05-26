@@ -4,13 +4,14 @@ import java.awt.Color;
 public class Drawing implements Comparable<Drawing> {
 	
 	private int x, y;
-	private int color;
+	private Color color;
 	private String id;
-	private Color c2 = new Color(color);
+	private Color c2;
+	private DrawTestFrame drawtestframe;
 
-	public Drawing(String color, int x, int y){
+	public Drawing(Color color, int x, int y){
 		
-		this.color=Integer.parseInt(color);
+		this.color=color;
 		this.x=x;
 		this.y=y;
 
@@ -24,6 +25,7 @@ public class Drawing implements Comparable<Drawing> {
 	public void setColor(Color c){
 		
 		this.c2 = c;
+		drawtestframe.repaint();
 	}
 	
 	public int getX(){

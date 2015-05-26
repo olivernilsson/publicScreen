@@ -93,7 +93,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	Color colorLightOrange = new Color(255, 195, 126);
 	Color chatTextColor = new Color(100, 95, 88);
 
-
+	private int color = 0;
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
 	
 	private boolean inFullScreenMode = false;
@@ -343,7 +343,62 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 						Random r = new Random();
 						int x = r.nextInt(getSize().width);
 						int y = r.nextInt(getSize().height);
-						Drawing user = new Drawing(snapshot.getKey(),x,y);
+						Color currentColor = null;
+						
+					
+						
+						final Drawing user = new Drawing(currentColor,x,y);
+						
+						
+						Firebase firebasetempColor = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("currentColor");
+						firebasetempColor.addValueEventListener(new ValueEventListener(){
+
+							@Override
+							public void onCancelled(FirebaseError arg0) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onDataChange(DataSnapshot dataSnapshot) {
+								
+								if(dataSnapshot.getValue().equals("red")){
+									
+									user.setColor(Color.RED);
+								}
+								if(dataSnapshot.getValue().equals("black")){
+									user.setColor(Color.BLACK);
+								}
+								
+								if(dataSnapshot.getValue().equals("yellow")){
+									user.setColor(Color.YELLOW);
+								}
+								
+								if(dataSnapshot.getValue().equals("green")){
+									user.setColor(Color.GREEN);
+								}
+								
+								if(dataSnapshot.getValue().equals("blue")){
+									user.setColor(Color.BLUE);
+								}
+								
+								if(dataSnapshot.getValue().equals("purple")){
+									user.setColor(Color.MAGENTA);
+								}
+								
+								if(dataSnapshot.getValue().equals("pink")){
+									user.setColor(Color.PINK);
+								}
+								
+								if(dataSnapshot.getValue().equals("white")){
+									user.setColor(Color.WHITE);
+								}
+								
+								
+							}
+							
+						});
+						
 						for (DataSnapshot dataSnapshot : dsList) {
 							
 							
@@ -533,7 +588,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
             public void onChildRemoved(DataSnapshot snapshot) {
                     // TODO Auto-generated method stub
             		users.clear();
-                  // repaint();
+                   repaint();
                    try {
 					
 				} catch (Exception e) {
@@ -555,6 +610,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	public void paint(Graphics g) {
 		super.paint(g); 
 		Graphics2D g2= (Graphics2D) g;
+		
 		//g2.setColor(Color.WHITE);
 		//g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
 		g2.setColor(Color.BLACK);
@@ -563,9 +619,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		//g.drawString("ScreenNbr: "+Constants.screenNbr, 10,  20);
 		//Test
 		for (Drawing user : users) {
+			
+			
 			int x = (user.getX());
 			int y = (user.getY());
-			//g2.setColor(user.getColor());
+			
+			g2.setColor(user.getColor());
 			g2.fillOval(x,y, 4, 4);
 			g2.setColor(Color.BLACK);
 			
@@ -573,6 +632,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			
 			//g.drawString(drawing.getId(),x+15,y+15);
 		}
+
 			chatSettings();
 	}
 	
@@ -679,7 +739,7 @@ final Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.
 final Firebase gameIsOver = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("chicken");
 new Timer().schedule(new TimerTask(){
 
-    int second = 15;
+    int second = 60;
     @Override
     public void run() {
         timerFrame.setText("Application will close in " + second-- + " seconds.");
