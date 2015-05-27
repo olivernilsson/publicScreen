@@ -92,6 +92,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	Color colorOrange = new Color(221, 141, 2);
 	Color colorLightOrange = new Color(255, 195, 126);
 	Color chatTextColor = new Color(100, 95, 88);
+	
+	Color drawColorRed = new Color(192, 69, 69);
+	Color drawColorYellow = new Color(192, 185, 69);
+	Color drawColorGreen = new Color(127, 192, 69);
+	Color drawColorBlue = new Color(69, 159, 192);
+	Color drawColorPurple = new Color(150, 69, 192);
+	Color drawColorPink = new Color(192, 69, 150);
 	String currentDraw ="";
 	boolean drawTimedOut = false;
 
@@ -397,30 +404,30 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 								
 								if(dataSnapshot.getValue().equals("red")){
 									
-									user.setColor(Color.RED);
+									user.setColor(drawColorRed);
 								}
 								if(dataSnapshot.getValue().equals("black")){
 									user.setColor(Color.BLACK);
 								}
 								
 								if(dataSnapshot.getValue().equals("yellow")){
-									user.setColor(Color.YELLOW);
+									user.setColor(drawColorYellow);
 								}
 								
 								if(dataSnapshot.getValue().equals("green")){
-									user.setColor(Color.GREEN);
+									user.setColor(drawColorGreen);
 								}
 								
 								if(dataSnapshot.getValue().equals("blue")){
-									user.setColor(Color.BLUE);
+									user.setColor(drawColorBlue);
 								}
 								
 								if(dataSnapshot.getValue().equals("purple")){
-									user.setColor(Color.MAGENTA);
+									user.setColor(drawColorPurple);
 								}
 								
 								if(dataSnapshot.getValue().equals("pink")){
-									user.setColor(Color.PINK);
+									user.setColor(drawColorPink);
 								}
 								
 								if(dataSnapshot.getValue().equals("white")){
@@ -792,7 +799,7 @@ final Firebase timeOut = new Firebase("https://brilliant-fire-8250.firebaseio.co
 
 new Timer().schedule(new TimerTask(){
 
-    int second =30;
+    int second =60;
     @Override
     public void run() {
     	
