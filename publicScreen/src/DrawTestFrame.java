@@ -246,11 +246,6 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.add(star2);
                         contentPane.add(star3);
                         
-                        
-                        
-                        
-                        
-                        
                         if(roundWinner == ""){
                             label.setBounds(115, 120, 1000, 200 );
                             label2.setBounds(115, 300, 1000, 200 );
@@ -266,6 +261,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         	label2.setText("waiting for new player");
                         	label.setForeground(colorBlue);
                             label2.setForeground(colorBlue);
+                            frameTop.setVisible(true);
+                        	//timerFrame.setSize(400,20);
+                        	frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
+                        	frameTop.setOpaque(true);
+                        	frameTop.setBackground(colorBlue);
                         	
                         } else if(drawTimedOut){
                         	label.setBounds(115, 120, 1000, 200 );
@@ -274,6 +274,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         	label2.setText("waiting for new player");
                         	label.setForeground(colorBlue);
                             label2.setForeground(colorBlue);
+                            frameTop.setVisible(true);
+                        	//timerFrame.setSize(400,20);
+                        	frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
+                        	frameTop.setOpaque(true);
+                        	frameTop.setBackground(colorBlue);
                         	
                         }else if(!drawTimedOut && !chickenChecker){
                         label.setText(roundWinner);
@@ -292,13 +297,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         
                         
                         
-                		winnerLabel.setBounds(150, 10, 500, 150);
-                		wordLabel.setBounds(270, 350, 500, 150);
-                		star1.setBounds(590, 201, 116, 71);
-                		star2.setBounds(609, 305, 138, 76);
-                		star3.setBounds(40, 196, 138, 76);
-                        label.setBounds(0, 160, (int) (getSize().width*0.75-17), 200 );
-                        label2.setBounds(0, 460, (int) (getSize().width*0.75-17), 200 );
+                		winnerLabel.setBounds(150, 100, 500, 150);
+                		wordLabel.setBounds(270, 440, 500, 150);
+                		star1.setBounds(590, 241, 166, 71);
+                		star2.setBounds(609, 345, 188, 76);
+                		star3.setBounds(40, 236, 188, 76);
+                        label.setBounds(0, 250, (int) (getSize().width*0.75-17), 200 );
+                        label2.setBounds(0, 550, (int) (getSize().width*0.75-17), 200 );
 
                         //label2.setForeground(Color.ORANGE);
                         label2.setBackground(Color.BLUE);
@@ -320,7 +325,6 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.remove(star1);
                         contentPane.remove(star2);
                         contentPane.remove(star3);
-                        contentPane.remove(frameTop);
                         contentPane.setBackground(Color.WHITE);
                         panel.add(scrolll);
                         setContentPane(contentPane);
@@ -692,14 +696,14 @@ public void loadFont() throws Exception{
 	File f2 = new File("Roboto-Regular.ttf");
 	FileInputStream in2 = new FileInputStream(f2);
 	Font roboto2 = Font.createFont(Font.TRUETYPE_FONT, in2);
-	Font roboto80Pt = roboto2.deriveFont(80f);
+	Font roboto80Pt = roboto2.deriveFont(60f);
 	label.setFont(roboto80Pt);
 	label2.setFont(roboto80Pt);
 	
 	File f3 = new File("Roboto-Regular.ttf");
 	FileInputStream in3 = new FileInputStream(f3);
 	Font roboto3 = Font.createFont(Font.TRUETYPE_FONT, in3);
-	Font robotoTimer = roboto2.deriveFont(70f);
+	Font robotoTimer = roboto2.deriveFont(55f);
 	timerFrame.setFont(robotoTimer);
 	
 	}
@@ -816,7 +820,7 @@ final Firebase timeOut = new Firebase("https://brilliant-fire-8250.firebaseio.co
 
 new Timer().schedule(new TimerTask(){
 
-    int second =60;
+    int second =10;
     @Override
     public void run() {
     	
@@ -837,7 +841,7 @@ new Timer().schedule(new TimerTask(){
 				if(dataSnapshot.getValue().toString().equals("false")){
 					legitWin = true;
 					second = 0;
-		        	timerFrame.removeAll();
+		        	timerFrame.setText(null);
 		        	
 				}
 				
