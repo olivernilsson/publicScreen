@@ -83,14 +83,18 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	JLabel label2 = new JLabel("The Label", SwingConstants.CENTER);
 	JLabel winnerLabel = new JLabel();
 	JLabel wordLabel = new JLabel();
+	JLabel timerFrame = new JLabel("The Label", SwingConstants.CENTER);
 	JLabel star1 = new JLabel();
 	JLabel star2 = new JLabel();
 	JLabel star3 = new JLabel();
 	JPanel panel = new JPanel();
+	
+	JLabel frameTop = new JLabel();
+	
 	boolean chickenChecker;
 	Color colorBlue = new Color(4, 154, 149);
 	Color colorOrange = new Color(221, 141, 2);
-	Color colorLightOrange = new Color(255, 195, 126);
+	Color colorLightOrange = new Color(255, 215, 146);
 	Color chatTextColor = new Color(100, 95, 88);
 	
 	Color drawColorRed = new Color(192, 69, 69);
@@ -158,7 +162,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
-		
+		setupFrame();
 		// Winner / Word listeners
 		Firebase winner = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("roundWinner");
 		winner.addValueEventListener(new ValueEventListener(){
@@ -316,6 +320,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.remove(star1);
                         contentPane.remove(star2);
                         contentPane.remove(star3);
+                        contentPane.remove(frameTop);
                         contentPane.setBackground(Color.WHITE);
                         panel.add(scrolll);
                         setContentPane(contentPane);
@@ -690,6 +695,13 @@ public void loadFont() throws Exception{
 	Font roboto80Pt = roboto2.deriveFont(80f);
 	label.setFont(roboto80Pt);
 	label2.setFont(roboto80Pt);
+	
+	File f3 = new File("Roboto-Regular.ttf");
+	FileInputStream in3 = new FileInputStream(f3);
+	Font roboto3 = Font.createFont(Font.TRUETYPE_FONT, in3);
+	Font robotoTimer = roboto2.deriveFont(70f);
+	timerFrame.setFont(robotoTimer);
+	
 	}
 
 
@@ -703,7 +715,7 @@ public void chatSettings(){
 	scrolll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
 	panel.add(scrolll);
 	chat.setLineWrap(true);
-	chat.setBackground(Color.WHITE);  //Lägger till bakgrundsfärg
+	chat.setBackground(colorLightOrange);  //Lägger till bakgrundsfärg
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
 	chat.setForeground(chatTextColor); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	
@@ -769,10 +781,15 @@ public static String wrapString(String string, int charWrap) {
 }
 
 public void timer(){
-final JLabel timerFrame = new JLabel();
+
 contentPane.add(timerFrame);
 timerFrame.setVisible(true);
-timerFrame.setSize(400,20);
+//timerFrame.setSize(400,20);
+timerFrame.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
+timerFrame.setOpaque(true);
+timerFrame.setBackground(colorBlue);
+timerFrame.setForeground(Color.WHITE);
+
 legitWin = false;
 drawTimedOut = false;
 
@@ -804,6 +821,7 @@ new Timer().schedule(new TimerTask(){
     public void run() {
     	
         timerFrame.setText(currentDraw +"    :   "+ second-- + " s.");
+        
         
         gameIsWon.addValueEventListener(new ValueEventListener(){
 
@@ -840,6 +858,64 @@ new Timer().schedule(new TimerTask(){
     }   
 },0, 1000);
 
+}
+
+
+public void setupFrame(){
+	JLabel frameRight = new JLabel();
+	JLabel frameBottom = new JLabel();
+	JLabel frameLeft = new JLabel();
+	JLabel framePadding = new JLabel();
+	JLabel frameLogo = new JLabel();
+	
+	contentPane.add(frameLogo);
+	contentPane.add(framePadding);
+	contentPane.add(frameRight);
+	contentPane.add(frameBottom);
+	contentPane.add(frameLeft);
+	contentPane.add(frameTop);
+	//Padding
+	framePadding.setVisible(true);
+	
+	framePadding.setBounds((int) (getSize().width*0.75-10), 0, 10, (int) (getSize().height));
+	framePadding.setOpaque(true);
+	framePadding.setBackground(colorLightOrange);
+	
+	//Right
+	frameRight.setVisible(true);
+	
+	frameRight.setBounds((int) (getSize().width*0.75-30), 0, 20, (int) (getSize().height));
+	frameRight.setOpaque(true);
+	frameRight.setBackground(colorBlue);
+	
+	
+	// Bot
+	frameBottom.setVisible(true);
+	
+	frameBottom.setBounds(0, (int) (getSize().height-20), (int) (getSize().width*0.75-10), 20);
+	frameBottom.setOpaque(true);
+	frameBottom.setBackground(colorBlue);
+	
+	//Left
+	frameLeft.setVisible(true);
+	
+	frameLeft.setBounds(0, 0, 20, (int) (getSize().height));
+	frameLeft.setOpaque(true);
+	frameLeft.setBackground(colorBlue);
+	
+	//Top
+	frameTop.setVisible(true);
+	//timerFrame.setSize(400,20);
+	frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
+	frameTop.setOpaque(true);
+	frameTop.setBackground(colorBlue);
+	
+	frameLogo.setVisible(true);
+	frameLogo.setIcon(new ImageIcon("ds_icon_72.png"));
+	frameLogo.setBounds(0, 0, 72, 72);
+	
+	
+	
 }
 }
 
