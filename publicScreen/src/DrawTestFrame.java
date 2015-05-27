@@ -81,6 +81,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	String selectedWord ="";
 	JLabel label = new JLabel("The Label", SwingConstants.CENTER);
 	JLabel label2 = new JLabel("The Label", SwingConstants.CENTER);
+	JLabel labelGameOver = new JLabel("The Label", SwingConstants.CENTER);
 	JLabel winnerLabel = new JLabel();
 	JLabel wordLabel = new JLabel();
 	JLabel timerFrame = new JLabel("The Label", SwingConstants.CENTER);
@@ -88,6 +89,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	JLabel star2 = new JLabel();
 	JLabel star3 = new JLabel();
 	JPanel panel = new JPanel();
+	JLabel gameOverSkull = new JLabel();
 	
 	JLabel frameTop = new JLabel();
 	
@@ -240,11 +242,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                         contentPane.add(label);
                         contentPane.add(label2);
+                        contentPane.add(labelGameOver);
                         contentPane.add(winnerLabel);
                         contentPane.add(wordLabel);
                         contentPane.add(star1);
                         contentPane.add(star2);
                         contentPane.add(star3);
+                        contentPane.add(gameOverSkull);
                         
                         if(roundWinner == ""){
                             label.setBounds(115, 120, 1000, 200 );
@@ -268,11 +272,14 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         	frameTop.setBackground(colorBlue);
                         	
                         } else if(drawTimedOut){
-                        	label.setBounds(115, 120, 1000, 200 );
+                        	contentPane.remove(label);
+                        	labelGameOver.setBounds(0, 60, (int) (getSize().width*0.75-17), 200 );
                             label2.setBounds(115, 300, 1000, 200 );
-                        	label.setText("Player timed out");
+                        	labelGameOver.setText("Game Over");
                         	label2.setText("waiting for new player");
-                        	label.setForeground(colorBlue);
+                        	labelGameOver.setForeground(drawColorRed);
+                        	gameOverSkull.setIcon(new ImageIcon("game_over_skull.png"));
+                        	gameOverSkull.setBounds(180, 200, 400, 400);
                             label2.setForeground(colorBlue);
                             frameTop.setVisible(true);
                         	//timerFrame.setSize(400,20);
@@ -320,11 +327,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 		star3.setIcon(null);
                         contentPane.remove(label);
                         contentPane.remove(label2);
+                        contentPane.remove(labelGameOver);
                         contentPane.remove(winnerLabel);
                         contentPane.remove(wordLabel);
                         contentPane.remove(star1);
                         contentPane.remove(star2);
                         contentPane.remove(star3);
+                        contentPane.remove(gameOverSkull);
                         contentPane.setBackground(Color.WHITE);
                         panel.add(scrolll);
                         setContentPane(contentPane);
@@ -654,7 +663,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	}
 	
 	
-	
+	//function that specifies 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g); 
@@ -685,6 +694,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			chatSettings();
 	}
 	
+//loads the different versions of the roboto font
 public void loadFont() throws Exception{
 		
 	File f = new File("Roboto-Regular.ttf");
@@ -699,6 +709,7 @@ public void loadFont() throws Exception{
 	Font roboto80Pt = roboto2.deriveFont(60f);
 	label.setFont(roboto80Pt);
 	label2.setFont(roboto80Pt);
+	labelGameOver.setFont(roboto80Pt);;
 	
 	File f3 = new File("Roboto-Regular.ttf");
 	FileInputStream in3 = new FileInputStream(f3);
@@ -708,7 +719,7 @@ public void loadFont() throws Exception{
 	
 	}
 
-
+//sets the layout for the chat-window
 public void chatSettings(){
 
 	panel.setBounds((int) (getSize().width*0.75), 0, (int) (getSize().width*0.25), screenSize.height);
@@ -725,6 +736,7 @@ public void chatSettings(){
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	
 }
 
+//controls the switch between windowed and fullscreen
 public void setFullscreen(boolean fullscreen) {
 	 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	     GraphicsDevice[] gd = ge.getScreenDevices();    
@@ -750,6 +762,7 @@ public void setFullscreen(boolean fullscreen) {
 			}
 }
 
+//sets the keybind for switching between fullscreen and windowed
 @Override
 public boolean dispatchKeyEvent(KeyEvent e) {
     if (e.getID() == KeyEvent.KEY_TYPED) {
@@ -760,6 +773,7 @@ public boolean dispatchKeyEvent(KeyEvent e) {
      return false;
 	}
 
+//Puts correct linebreaks in the chat
 public static String wrapString(String string, int charWrap) {
     int lastBreak = 0;
     int nextBreak = charWrap;
@@ -784,6 +798,7 @@ public static String wrapString(String string, int charWrap) {
     }
 }
 
+//Logic for the timer, tells firebase when the timer runs out
 public void timer(){
 
 contentPane.add(timerFrame);
@@ -820,7 +835,7 @@ final Firebase timeOut = new Firebase("https://brilliant-fire-8250.firebaseio.co
 
 new Timer().schedule(new TimerTask(){
 
-    int second =10;
+    int second = 70;
     @Override
     public void run() {
     	
@@ -864,7 +879,7 @@ new Timer().schedule(new TimerTask(){
 
 }
 
-
+//sets up the borders of the drawing window and the padding of the chat
 public void setupFrame(){
 	JLabel frameRight = new JLabel();
 	JLabel frameBottom = new JLabel();
