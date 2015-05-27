@@ -92,6 +92,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	Color colorOrange = new Color(221, 141, 2);
 	Color colorLightOrange = new Color(255, 195, 126);
 	Color chatTextColor = new Color(100, 95, 88);
+	String currentDraw ="";
+	boolean drawTimedOut = false;
 
 	private int color = 0;
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
@@ -187,8 +189,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		});
 
 	    //coordinates = new ArrayList<Drawing>();
-		// Firebase chicken identifier
-		Firebase isChicken = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("chicken");
+		//Firebase chicken identifier
+		Firebase isChicken = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("quit");
 		isChicken.addValueEventListener(new ValueEventListener(){
 
 			@Override
@@ -199,11 +201,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				if(dataSnapshot.getValue().toString().equals("beep")){
+				if(dataSnapshot.getValue().toString().equals("true")){
 					chickenChecker = true;
 				}
 				
-				if(dataSnapshot.getValue().toString().equals("null")){
+				if(dataSnapshot.getValue().toString().equals("false")){
 					chickenChecker = false;
 				}
 				
@@ -224,6 +226,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 
 			public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue().toString().equals("false")){
+                	
                         contentPane.add(label);
                         contentPane.add(label2);
                         contentPane.add(winnerLabel);
@@ -231,6 +234,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         contentPane.add(star1);
                         contentPane.add(star2);
                         contentPane.add(star3);
+                        
+                        
+                        
+                        
+                        
+                        
                         if(roundWinner == ""){
                             label.setBounds(115, 120, 1000, 200 );
                             label2.setBounds(115, 300, 1000, 200 );
@@ -239,7 +248,23 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                 label.setForeground(colorBlue);
                                 label2.setForeground(colorBlue);
                                
-                        } else {
+                        } else if(chickenChecker){
+                        	label.setBounds(115, 120, 1000, 200 );
+                            label2.setBounds(115, 300, 1000, 200 );
+                        	label.setText("Player quit");
+                        	label2.setText("waiting for new player");
+                        	label.setForeground(colorBlue);
+                            label2.setForeground(colorBlue);
+                        	
+                        } else if(drawTimedOut){
+                        	label.setBounds(115, 120, 1000, 200 );
+                            label2.setBounds(115, 300, 1000, 200 );
+                        	label.setText("Player timed out");
+                        	label2.setText("waiting for new player");
+                        	label.setForeground(colorBlue);
+                            label2.setForeground(colorBlue);
+                        	
+                        }else if(!drawTimedOut && !chickenChecker){
                         label.setText(roundWinner);
                         selectedWord = selectedWord.substring(0, 1).toUpperCase() + selectedWord.substring(1);
                         label2.setText(selectedWord);
@@ -253,6 +278,9 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         label.setForeground(colorOrange);
                         
                         }
+                        
+                        
+                        
                 		winnerLabel.setBounds(150, 10, 500, 150);
                 		wordLabel.setBounds(270, 350, 500, 150);
                 		star1.setBounds(590, 201, 116, 71);
@@ -269,6 +297,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                        
                 }
                 if(dataSnapshot.getValue().toString().equals("true")){
+                		winnerLabel.setIcon(null);
+                		wordLabel.setIcon(null);
+                		star1.setIcon(null);
+                		star2.setIcon(null);
+                		star3.setIcon(null);
                         contentPane.remove(label);
                         contentPane.remove(label2);
                         contentPane.remove(winnerLabel);
@@ -281,7 +314,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         setContentPane(contentPane);
                         //SwingUtilities.updateComponentTreeUI(contentPane);
                         contentPane.invalidate();
-                        contentPane.revalidate();      
+                        contentPane.revalidate();
                         contentPane.repaint();
                         timer();
                 }
@@ -613,7 +646,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		
 		//g2.setColor(Color.WHITE);
 		//g2.fillRect(0, 0, getSize().width-(scrolll.getWidth()), getSize().height);
-		g2.setColor(Color.BLACK);
+		//g2.setColor(Color.BLACK);
 		g2.scale(5, 3.5);
 		
 		//g.drawString("ScreenNbr: "+Constants.screenNbr, 10,  20);
@@ -626,7 +659,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			
 			g2.setColor(user.getColor());
 			g2.fillOval(x,y, 4, 4);
-			g2.setColor(Color.BLACK);
+			//g2.setColor(Color.BLACK);
 			
 			
 			
@@ -734,15 +767,37 @@ contentPane.add(timerFrame);
 timerFrame.setVisible(true);
 timerFrame.setSize(400,20);
 legitWin = false;
+drawTimedOut = false;
+
+Firebase currentDrawer = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("currentDrawer");
+currentDrawer.addValueEventListener(new ValueEventListener(){
+
+	@Override
+	public void onCancelled(FirebaseError arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDataChange(DataSnapshot dataSnapshot) {
+		currentDraw = dataSnapshot.getValue().toString();
+		
+	}
+	
+});
 
 final Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
 final Firebase gameIsOver = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("chicken");
+final Firebase timeOut = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("timedOut");
+
 new Timer().schedule(new TimerTask(){
 
-    int second = 60;
+    int second =30;
     @Override
     public void run() {
-        timerFrame.setText("Application will close in " + second-- + " seconds.");
+    	
+        timerFrame.setText(currentDraw +"    :   "+ second-- + " s.");
+        
         gameIsWon.addValueEventListener(new ValueEventListener(){
 
 			@Override
@@ -756,7 +811,6 @@ new Timer().schedule(new TimerTask(){
 				
 				if(dataSnapshot.getValue().toString().equals("false")){
 					legitWin = true;
-					gameIsOver.setValue("null");
 					second = 0;
 		        	timerFrame.removeAll();
 		        	
@@ -770,11 +824,11 @@ new Timer().schedule(new TimerTask(){
         	timerFrame.removeAll();
         	contentPane.remove(timerFrame);
         	
-        	gameIsWon.setValue("false");
         	if(!legitWin){
-        	gameIsOver.setValue("beep");
+        	timeOut.setValue("true");
+        	drawTimedOut = true;
         	}
-        	
+        	legitWin = false;
         }
     }   
 },0, 1000);
