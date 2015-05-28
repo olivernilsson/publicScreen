@@ -100,6 +100,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	Color chatTextColor = new Color(100, 95, 88);
 	
 	Color drawColorRed = new Color(192, 69, 69);
+	Color drawColorTransparent = new Color(0, 0, 0, 0); //transparent color for fix to broken lines
 	Color drawColorYellow = new Color(192, 185, 69);
 	Color drawColorGreen = new Color(127, 192, 69);
 	Color drawColorBlue = new Color(69, 159, 192);
@@ -253,11 +254,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue().toString().equals("false")){
                 	
+                	label.setBounds(0, 300, (int) (getSize().width*0.75), 100);
+                	label2.setBounds(0, 550, (int) (getSize().width*0.75), 100);
                 	
                 	//Waiting screen
                 	if(startUp){
                 	waitingScreen.setIcon(new ImageIcon("WaitingScreen2600real.png"));
-                	waitingScreen.setBounds(90, 110 , 600, 600);
+                	waitingScreen.setBounds(80, 110 , 600, 600);
                 	contentPane.add(waitingScreen);
                 	contentPane.remove(winnerScreen);
                 	contentPane.remove(gameOverScreen);
@@ -267,10 +270,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                 	if(chickenChecker && !startUp){
                     	waitingScreen.setIcon(new ImageIcon("WaitingScreen2600real.png"));
-                    	waitingScreen.setBounds(90, 110 , 600, 600);
+                    	waitingScreen.setBounds(80, 110 , 600, 600);
                     	contentPane.add(waitingScreen);
                     	contentPane.remove(winnerScreen);
                     	contentPane.remove(gameOverScreen);
+                    	contentPane.remove(label);
+                    	contentPane.remove(label2);
                     	contentPane.repaint();
                 	}
                 	
@@ -281,8 +286,15 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                 	
                 		if(chickenChecker == false && drawTimedOut == false && startUp == false){
-                			winnerScreen.setIcon(new ImageIcon("WinnerScreen600.png"));
-                        	winnerScreen.setBounds(90, 110, 600, 600);
+                			winnerScreen.setIcon(new ImageIcon("WinnerScreen.png"));
+                        	winnerScreen.setBounds(80, 110, 600, 600);
+                        	label.setText(roundWinner);
+                            selectedWord = selectedWord.substring(0, 1).toUpperCase() + selectedWord.substring(1);
+                            label2.setText(selectedWord);
+                            label.setForeground(colorBlue);
+                            label2.setForeground(colorBlue);
+                            contentPane.add(label);
+                        	contentPane.add(label2);
                         	contentPane.add(winnerScreen);
                         	contentPane.remove(waitingScreen);
                         	contentPane.remove(gameOverScreen);
@@ -293,10 +305,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 		
                 		if(drawTimedOut && !startUp){
                 			gameOverScreen.setIcon(new ImageIcon("gameOverScreen600.png"));
-                        	gameOverScreen.setBounds(90, 100, 600, 600);
+                        	gameOverScreen.setBounds(80, 100, 600, 600);
                         	contentPane.add(gameOverScreen);
                         	contentPane.remove(waitingScreen);
                         	contentPane.remove(winnerScreen);
+                        	contentPane.remove(label);
+                        	contentPane.remove(label2);
                         	contentPane.repaint();
                         	startUp = false;
                 			
@@ -309,6 +323,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	contentPane.remove(waitingScreen);
                 	contentPane.remove(winnerScreen);
                 	contentPane.remove(gameOverScreen);
+                	contentPane.remove(label);
+                	contentPane.remove(label2);
                 	contentPane.repaint();
                 	startUp = false;
                 	timer();
@@ -678,7 +694,7 @@ public void loadFont() throws Exception{
 	File f2 = new File("Roboto-Regular.ttf");
 	FileInputStream in2 = new FileInputStream(f2);
 	Font roboto2 = Font.createFont(Font.TRUETYPE_FONT, in2);
-	Font roboto80Pt = roboto2.deriveFont(60f);
+	Font roboto80Pt = roboto2.deriveFont(50f);
 	label.setFont(roboto80Pt);
 	label2.setFont(roboto80Pt);
 	labelGameOver.setFont(roboto80Pt);
