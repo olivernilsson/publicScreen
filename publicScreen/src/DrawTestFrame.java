@@ -79,12 +79,12 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	final JScrollPane scrolll = new JScrollPane(chat);
 	String roundWinner ="";
 	String selectedWord ="";
-	JLabel label = new JLabel("The Label", SwingConstants.CENTER);
-	JLabel label2 = new JLabel("The Label", SwingConstants.CENTER);
-	JLabel labelGameOver = new JLabel("The Label", SwingConstants.CENTER);
+	JLabel label = new JLabel("", SwingConstants.CENTER);
+	JLabel label2 = new JLabel("", SwingConstants.CENTER);
+	JLabel labelGameOver = new JLabel("", SwingConstants.CENTER);
 	JLabel winnerLabel = new JLabel();
 	JLabel wordLabel = new JLabel();
-	JLabel timerFrame = new JLabel("The Label", SwingConstants.CENTER);
+	JLabel timerFrame = new JLabel("", SwingConstants.CENTER);
 	JLabel star1 = new JLabel();
 	JLabel star2 = new JLabel();
 	JLabel star3 = new JLabel();
@@ -107,7 +107,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	Color drawColorPink = new Color(192, 69, 150);
 	String currentDraw ="";
 	boolean drawTimedOut = false;
-
+	boolean startUp = true;
 	private int color = 0;
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
 	
@@ -161,10 +161,16 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager(); //Listen to keyboard
 	    manager.addKeyEventDispatcher(this);
 		setFullscreen(true);
-
+		chatSettings();
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		setupFrame();
+		//Top
+		frameTop.setVisible(true);
+		timerFrame.setSize(400,20);
+		frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
+		frameTop.setOpaque(true);
+		frameTop.setBackground(colorBlue);
 		// Winner / Word listeners
 		Firebase winner = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("roundWinner");
 		winner.addValueEventListener(new ValueEventListener(){
@@ -230,7 +236,14 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		// Firebase win listener
 		Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
 		gameIsWon.addValueEventListener(new ValueEventListener(){
-
+			
+			JLabel winnerScreen = new JLabel();
+			JLabel gameOverScreen = new JLabel();
+			JLabel waitingScreen = new JLabel();
+			
+			
+			
+			
 			@Override
 			public void onCancelled(FirebaseError arg0) {
 				// TODO Auto-generated method stub
@@ -240,110 +253,69 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue().toString().equals("false")){
                 	
-                        contentPane.add(label);
-                        contentPane.add(label2);
-                        contentPane.add(labelGameOver);
-                        contentPane.add(winnerLabel);
-                        contentPane.add(wordLabel);
-                        contentPane.add(star1);
-                        contentPane.add(star2);
-                        contentPane.add(star3);
-                        contentPane.add(gameOverSkull);
-                        
-                        if(roundWinner == ""){
-                            label.setBounds(115, 120, 1000, 200 );
-                            label2.setBounds(115, 300, 1000, 200 );
-                                label.setText("Waiting");
-                                label2.setText("for drawer");
-                                label.setForeground(colorBlue);
-                                label2.setForeground(colorBlue);
-                               
-                        } else if(chickenChecker){
-                        	label.setBounds(115, 120, 1000, 200 );
-                            label2.setBounds(115, 300, 1000, 200 );
-                        	label.setText("Player quit");
-                        	label2.setText("waiting for new player");
-                        	label.setForeground(colorBlue);
-                            label2.setForeground(colorBlue);
-                            frameTop.setVisible(true);
-                        	//timerFrame.setSize(400,20);
-                        	frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
-                        	frameTop.setOpaque(true);
-                        	frameTop.setBackground(colorBlue);
-                        	
-                        } else if(drawTimedOut){
-                        	contentPane.remove(label);
-                        	labelGameOver.setBounds(0, 60, (int) (getSize().width*0.75-17), 200 );
-                            label2.setBounds(115, 300, 1000, 200 );
-                        	labelGameOver.setText("Game Over");
-                        	label2.setText("waiting for new player");
-                        	labelGameOver.setForeground(drawColorRed);
-                        	gameOverSkull.setIcon(new ImageIcon("game_over_skull.png"));
-                        	gameOverSkull.setBounds(180, 200, 400, 400);
-                            label2.setForeground(colorBlue);
-                            frameTop.setVisible(true);
-                        	//timerFrame.setSize(400,20);
-                        	frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
-                        	frameTop.setOpaque(true);
-                        	frameTop.setBackground(colorBlue);
-                        	
-                        }else if(!drawTimedOut && !chickenChecker){
-                        label.setText(roundWinner);
-                        selectedWord = selectedWord.substring(0, 1).toUpperCase() + selectedWord.substring(1);
-                        label2.setText(selectedWord);
-                        //label2.setText(selectedWord);
-                        winnerLabel.setIcon(new ImageIcon("winner.png"));
-                        wordLabel.setIcon(new ImageIcon("word.png"));
-                        star1.setIcon(new ImageIcon("litenstar.png"));
-                        star2.setIcon(new ImageIcon("star.png"));
-                        star3.setIcon(new ImageIcon("starr.png"));
-                        label2.setForeground(colorOrange);
-                        label.setForeground(colorOrange);
-                        
-                        }
-                        
-                        
-                        
-                		winnerLabel.setBounds(150, 100, 500, 150);
-                		wordLabel.setBounds(270, 440, 500, 150);
-                		star1.setBounds(590, 241, 166, 71);
-                		star2.setBounds(609, 345, 188, 76);
-                		star3.setBounds(40, 236, 188, 76);
-                        label.setBounds(0, 250, (int) (getSize().width*0.75-17), 200 );
-                        label2.setBounds(0, 550, (int) (getSize().width*0.75-17), 200 );
+                	
+                	//Waiting screen
+                	if(startUp){
+                	waitingScreen.setIcon(new ImageIcon("WaitingScreen2600real.png"));
+                	waitingScreen.setBounds(90, 110 , 600, 600);
+                	contentPane.add(waitingScreen);
+                	contentPane.remove(winnerScreen);
+                	contentPane.remove(gameOverScreen);
+                	contentPane.repaint();
+                	}
+                	
+                	
+                	if(chickenChecker && !startUp){
+                    	waitingScreen.setIcon(new ImageIcon("WaitingScreen2600real.png"));
+                    	waitingScreen.setBounds(90, 110 , 600, 600);
+                    	contentPane.add(waitingScreen);
+                    	contentPane.remove(winnerScreen);
+                    	contentPane.remove(gameOverScreen);
+                    	contentPane.repaint();
+                	}
+                	
+                	
+                	//Winner screen
+                	
 
-                        //label2.setForeground(Color.ORANGE);
-                        label2.setBackground(Color.BLUE);
-                        //label.setForeground(Color.ORANGE);
-                        label.setBackground(Color.BLUE);
-                        setContentPane(contentPane);
+                	
+                	
+                		if(chickenChecker == false && drawTimedOut == false && startUp == false){
+                			winnerScreen.setIcon(new ImageIcon("WinnerScreen600.png"));
+                        	winnerScreen.setBounds(90, 110, 600, 600);
+                        	contentPane.add(winnerScreen);
+                        	contentPane.remove(waitingScreen);
+                        	contentPane.remove(gameOverScreen);
+                        	contentPane.repaint();
+                        	
+                		}
+                	
+                		
+                		if(drawTimedOut && !startUp){
+                			gameOverScreen.setIcon(new ImageIcon("gameOverScreen600.png"));
+                        	gameOverScreen.setBounds(90, 100, 600, 600);
+                        	contentPane.add(gameOverScreen);
+                        	contentPane.remove(waitingScreen);
+                        	contentPane.remove(winnerScreen);
+                        	contentPane.repaint();
+                        	startUp = false;
+                			
+                		}
+                	
+                        
                        
                 }
                 if(dataSnapshot.getValue().toString().equals("true")){
-                		winnerLabel.setIcon(null);
-                		wordLabel.setIcon(null);
-                		star1.setIcon(null);
-                		star2.setIcon(null);
-                		star3.setIcon(null);
-                        contentPane.remove(label);
-                        contentPane.remove(label2);
-                        contentPane.remove(labelGameOver);
-                        contentPane.remove(winnerLabel);
-                        contentPane.remove(wordLabel);
-                        contentPane.remove(star1);
-                        contentPane.remove(star2);
-                        contentPane.remove(star3);
-                        contentPane.remove(gameOverSkull);
-                        contentPane.setBackground(Color.WHITE);
-                        panel.add(scrolll);
-                        setContentPane(contentPane);
-                        //SwingUtilities.updateComponentTreeUI(contentPane);
-                        contentPane.invalidate();
-                        contentPane.revalidate();
-                        contentPane.repaint();
-                        timer();
+                	contentPane.remove(waitingScreen);
+                	contentPane.remove(winnerScreen);
+                	contentPane.remove(gameOverScreen);
+                	contentPane.repaint();
+                	startUp = false;
+                	timer();
+                	
+      
                 }
-                
+                repaint();
 
                
         }
@@ -582,7 +554,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                     		}
                                             //chat.append(author.get(i) + ":  " + msg.get(i) + splitter + line + splitter);
                                             String str =(author.get(i) + ":  " + msg.get(i));
-                                            String str2 = wrapString(str, 27);
+                                            String str2 = wrapString(str, 26);
                                             System.out.println(str2);
                                             chat.append(str2 + splitter + line + splitter);
 
@@ -709,7 +681,7 @@ public void loadFont() throws Exception{
 	Font roboto80Pt = roboto2.deriveFont(60f);
 	label.setFont(roboto80Pt);
 	label2.setFont(roboto80Pt);
-	labelGameOver.setFont(roboto80Pt);;
+	labelGameOver.setFont(roboto80Pt);
 	
 	File f3 = new File("Roboto-Regular.ttf");
 	FileInputStream in3 = new FileInputStream(f3);
@@ -734,6 +706,7 @@ public void chatSettings(){
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
 	chat.setForeground(chatTextColor); //Ändrar färg på texten
 	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	
+	panel.repaint();
 }
 
 //controls the switch between windowed and fullscreen
@@ -801,6 +774,7 @@ public static String wrapString(String string, int charWrap) {
 //Logic for the timer, tells firebase when the timer runs out
 public void timer(){
 
+contentPane.remove(frameTop);
 contentPane.add(timerFrame);
 timerFrame.setVisible(true);
 //timerFrame.setSize(400,20);
@@ -832,10 +806,11 @@ currentDrawer.addValueEventListener(new ValueEventListener(){
 final Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
 final Firebase gameIsOver = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("chicken");
 final Firebase timeOut = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("timedOut");
-
+final Firebase drawing = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("draw");
 new Timer().schedule(new TimerTask(){
 
-    int second = 70;
+    int second = 30;
+
     @Override
     public void run() {
     	
@@ -859,20 +834,32 @@ new Timer().schedule(new TimerTask(){
 		        	timerFrame.setText(null);
 		        	
 				}
+				if(dataSnapshot.getValue().toString().equals("true")){
+					if(second<0){
+						gameIsWon.setValue(false);
+						
+					}
+					
+				}
 				
 			}
         	
         });
         if(second<0){
         	this.cancel();
-        	timerFrame.removeAll();
-        	contentPane.remove(timerFrame);
-        	
+        	timerFrame.setText("");
+        	//contentPane.remove(timerFrame);
+        	drawing.removeValue();
         	if(!legitWin){
         	timeOut.setValue("true");
         	drawTimedOut = true;
         	}
         	legitWin = false;
+        	
+        	
+        	
+        		
+        	
         }
     }   
 },0, 1000);
@@ -923,11 +910,11 @@ public void setupFrame(){
 	frameLeft.setBackground(colorBlue);
 	
 	//Top
-	frameTop.setVisible(true);
+	//frameTop.setVisible(true);
 	//timerFrame.setSize(400,20);
-	frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
-	frameTop.setOpaque(true);
-	frameTop.setBackground(colorBlue);
+	//frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
+	//frameTop.setOpaque(true);
+	//frameTop.setBackground(colorBlue);
 	
 	frameLogo.setVisible(true);
 	frameLogo.setIcon(new ImageIcon("ds_icon_72.png"));
