@@ -485,7 +485,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 								
 								String tempX = dataSnapshot.getValue().toString();
 								int intX = Integer.parseInt(tempX);
-								user.setX(intX+20);
+								user.setX(intX+10);
 								
 								
 							}
