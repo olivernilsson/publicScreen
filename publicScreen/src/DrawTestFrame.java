@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -123,6 +124,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	String currentDraw ="";
 	boolean drawTimedOut = false;
 	boolean startUp = true;
+	int prevX;
+	int prevY;
 	private int color = 0;
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
 	
@@ -714,14 +717,41 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		
 		//g.drawString("ScreenNbr: "+Constants.screenNbr, 10,  20);
 		//Test
+		
+		prevX = 0;
+		prevY = 0;
+		
 		for (Drawing user : users) {
 			
 			
 			int x = (user.getX());
 			int y = (user.getY());
 			
+			if(prevX == 0){
+				
+				prevX = x;
+			}
+			
+			if(prevY == 0){
+				
+				prevY = y;
+			}
+			
+			g2.setStroke(new BasicStroke(2));
 			g2.setColor(user.getColor());
-			g2.fillOval(x,y, 4, 4);
+			
+			if(prevX - x > 6 || prevX - x < - 6 || prevY - y > 6 || prevY - y < -6){
+                g2.setColor(drawColorTransparent);
+        }
+       
+        g2.drawLine(prevX, prevY, x, y);
+        //g2.setColor(Color.BLACK);
+
+       
+       
+        prevX = user.getX();
+        prevY = user.getY();
+			//g2.fillOval(x,y, 4, 4);
 			//g2.setColor(Color.BLACK);
 			
 			
@@ -740,7 +770,7 @@ public void loadFont() throws Exception{
 	Font roboto = Font.createFont(Font.TRUETYPE_FONT, in);
 	Font roboto20Pt = roboto.deriveFont(20f);
 	chat.setFont(roboto20Pt);
-		
+	
 	File f2 = new File("Roboto-Regular.ttf");
 	FileInputStream in2 = new FileInputStream(f2);
 	Font roboto2 = Font.createFont(Font.TRUETYPE_FONT, in2);
