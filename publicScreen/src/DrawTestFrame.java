@@ -194,23 +194,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		frameTop.setOpaque(true);
 		frameTop.setBackground(colorBlue);
 		// Winner / Word listeners
-		Firebase winner = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("roundWinner");
-		winner.addValueEventListener(new ValueEventListener(){
-
-			@Override
-			public void onCancelled(FirebaseError arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				roundWinner = dataSnapshot.getValue().toString();
-				
-				
-			}
-			
-		});
+		
 		
 		Firebase selectedword = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("selectedword");
 		selectedword.addValueEventListener(new ValueEventListener(){
@@ -309,7 +293,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 		if(chickenChecker == false && drawTimedOut == false && startUp == false){
                 			winnerScreen.setIcon(new ImageIcon("WinnerScreen.png"));
                         	winnerScreen.setBounds(80, 110, 600, 600);
-                        	label.setText(roundWinner);
+                        	
                             selectedWord = selectedWord.substring(0, 1).toUpperCase() + selectedWord.substring(1);
                             label2.setText(selectedWord);
                             label.setForeground(colorBlue);
@@ -319,6 +303,30 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         	contentPane.add(winnerScreen);
                         	contentPane.remove(waitingScreen);
                         	contentPane.remove(gameOverScreen);
+                        	
+                        	
+                        	
+                        	Firebase winner = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("roundWinner");
+                    		winner.addValueEventListener(new ValueEventListener(){
+
+                    			@Override
+                    			public void onCancelled(FirebaseError arg0) {
+                    				// TODO Auto-generated method stub
+                    				
+                    			}
+
+                    			@Override
+                    			public void onDataChange(DataSnapshot dataSnapshot) {
+                    				label.setText(dataSnapshot.getValue().toString());
+                    				
+                    				
+                    			}
+                    			
+                    		});
+                        	
+                        	
+                        	
+                    		
                         	contentPane.repaint();
                         	
                 		}
