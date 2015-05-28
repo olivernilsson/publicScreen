@@ -41,11 +41,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -73,7 +78,16 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	Firebase firebasechat = new Firebase("https://brilliant-fire-8250.firebaseio.com/chat/");
 	Firebase firebasedraw = new Firebase("https://brilliant-fire-8250.firebaseio.com/");
 	
-	JTextArea chat = new JTextArea();
+	JTextPane chat = new JTextPane();
+	StyledDocument doc = chat.getStyledDocument();
+	
+	SimpleAttributeSet chatAuthor = new SimpleAttributeSet();
+	SimpleAttributeSet chatMsg = new SimpleAttributeSet();
+	SimpleAttributeSet chatGame = new SimpleAttributeSet();
+	
+	
+	
+	
 	DefaultCaret caret = (DefaultCaret)chat.getCaret();
 	TextField field = new TextField();
 	final JScrollPane scrolll = new JScrollPane(chat);
@@ -146,6 +160,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	 * Create the frame.
 	 */
 	public DrawTestFrame() {
+		chat.setText("Retrieving chat....");
+		//chat.setBounds((int) (getSize().width*0.75), 0, (int) (getSize().width*0.25), screenSize.height);
+		
+		StyleConstants.setForeground(chatAuthor, colorBlue);
+		StyleConstants.setForeground(chatGame, Color.BLACK);
+		StyleConstants.setForeground(chatMsg, Color.DARK_GRAY);
+		//StyleConstants.setBold(chatAuthor, true);
 		//TextArea chat = new TextArea();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, screenSize.width, screenSize.height);
@@ -569,10 +590,31 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                                     			line="---------------------------------------------------";
                                     		}
                                             //chat.append(author.get(i) + ":  " + msg.get(i) + splitter + line + splitter);
-                                            String str =(author.get(i) + ":  " + msg.get(i));
-                                            String str2 = wrapString(str, 26);
-                                            System.out.println(str2);
-                                            chat.append(str2 + splitter + line + splitter);
+                                           //String str =(author.get(i) + ":  " + msg.get(i));
+                                            //String str2 = wrapString(str, 26);
+                                            //System.out.println(str2);
+                                    		String str = author.get(i);
+                                    		String str2 = wrapString(str, 26);
+                                    		String strC = msg.get(i);
+                                    		String strC2 = wrapString(strC, 19);
+                                            
+                                            //chat.append(str2 + splitter + line + splitter);
+                                            try {
+                                            	if(author.get(i).equals("@DrawStuff")){
+                                            		
+                                            		
+                                            		doc.insertString(doc.getLength(), str2+": \n", chatGame);
+                                            	} else {
+                                            		
+												doc.insertString(doc.getLength(), str2+": \n", chatAuthor);
+                                            	}
+                                            	
+                                        		
+												doc.insertString(doc.getLength(), strC2 + splitter + line +splitter, chatMsg);
+											} catch (BadLocationException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
 
                                             
                                            
@@ -709,19 +751,22 @@ public void loadFont() throws Exception{
 
 //sets the layout for the chat-window
 public void chatSettings(){
-
+	
+	
 	panel.setBounds((int) (getSize().width*0.75), 0, (int) (getSize().width*0.25), screenSize.height);
 	panel.setBorder(null);
 	contentPane.add(panel);
 	panel.setLayout(new BorderLayout(0, 0));
 	scrolll.setBorder(null);
 	scrolll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
+	scrolll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 	panel.add(scrolll);
-	chat.setLineWrap(true);
+	//scrolll.setBounds((int) (getSize().width*0.75), 0, (int) (getSize().width*0.25), screenSize.height);
+	//chat.setLineWrap(true);
 	chat.setBackground(colorLightOrange);  //Lägger till bakgrundsfärg
 	//chat.setFont(roboto20Pt); // Ändrar Font och storlek
 	chat.setForeground(chatTextColor); //Ändrar färg på texten
-	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);	
+	caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
 	panel.repaint();
 }
 
@@ -825,7 +870,7 @@ final Firebase timeOut = new Firebase("https://brilliant-fire-8250.firebaseio.co
 final Firebase drawing = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("draw");
 new Timer().schedule(new TimerTask(){
 
-    int second = 30;
+    int second = 70;
 
     @Override
     public void run() {
