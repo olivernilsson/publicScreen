@@ -1,70 +1,52 @@
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
-import java.util.Map;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.firebase.client.core.Path;
 
 
 //Vi vill hï¿½mta kordinaterna frï¿½n databasen och rita ut dem pï¿½ skï¿½rmen.
 public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String tempurl = "";
-	private int dir;
 	private boolean legitWin = false;
 
 	//används för att göra en by rad i chatten
@@ -126,7 +108,6 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	boolean startUp = true;
 	int prevX;
 	int prevY;
-	private int color = 0;
 	private int PrevX = 100 ,PrevY = 100 ,PrevWidth = 480,PrevHeight = 640;
 	
 	private boolean inFullScreenMode = false;
@@ -136,8 +117,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	//change to vector
    Vector <String> author = new Vector <String> ();
    Vector<String> msg = new Vector<String>();
-	
-	private Graphics g;
+   
 	//vector som håller det som ska ritas ut
 	private Vector<Drawing> users = new Vector<Drawing>();
 
