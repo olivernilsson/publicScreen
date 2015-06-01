@@ -249,7 +249,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                 	//Waiting screen
                 	if(startUp){
-                	waitingScreen.setIcon(new ImageIcon("libs/WaitingScreen2600real.png"));
+                	waitingScreen.setIcon(new ImageIcon("libs/WaitinScreen600.png"));
                 	waitingScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300, 600, 600);
                 	contentPane.add(waitingScreen);
                 	contentPane.remove(winnerScreen);
@@ -259,7 +259,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                 	
                 	if(chickenChecker && !startUp){
-                    	waitingScreen.setIcon(new ImageIcon("libs/WaitingScreen2600real.png"));
+                    	waitingScreen.setIcon(new ImageIcon("libs/WaitinScreen600.png"));
                     	waitingScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300 , 600, 600);
                     	contentPane.add(waitingScreen);
                     	contentPane.remove(winnerScreen);
@@ -854,7 +854,7 @@ public static String wrapString(String string, int charWrap) {
 
 //Logic for the timer, tells firebase when the timer runs out
 public void timer(){
-
+	
 contentPane.remove(frameTop);
 contentPane.add(timerFrame);
 timerFrame.setVisible(true);
@@ -863,6 +863,7 @@ timerFrame.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
 timerFrame.setOpaque(true);
 timerFrame.setBackground(colorBlue);
 timerFrame.setForeground(Color.WHITE);
+
 
 legitWin = false;
 drawTimedOut = false;
@@ -890,7 +891,9 @@ final Firebase timeOut = new Firebase(firebaseURL).child("timedOut");
 final Firebase drawing = new Firebase(firebaseURL).child("draw");
 new Timer().schedule(new TimerTask(){
 
-    int second = 70;
+	int second = 70;
+    
+    
 
     @Override
     public void run() {
@@ -912,7 +915,7 @@ new Timer().schedule(new TimerTask(){
 				if(dataSnapshot.getValue().toString().equals("false")){
 					legitWin = true;
 					second = 0;
-		        	timerFrame.setText(null);
+		        	timerFrame.setText("");
 		        	
 				}
 				if(dataSnapshot.getValue().toString().equals("true")){
@@ -936,12 +939,9 @@ new Timer().schedule(new TimerTask(){
         	drawTimedOut = true;
         	}
         	legitWin = false;
-        	
-        	
-        	
-        		
-        	
+
         }
+      
     }   
 },0, 1000);
 
