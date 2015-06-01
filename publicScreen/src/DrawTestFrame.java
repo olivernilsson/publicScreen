@@ -57,9 +57,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	
 	private JPanel contentPane;
 	
-	Firebase firebase = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/");
-	Firebase firebasechat = new Firebase("https://brilliant-fire-8250.firebaseio.com/chat/");
-	Firebase firebasedraw = new Firebase("https://brilliant-fire-8250.firebaseio.com/");
+	String firebaseURL = "https://brilliant-fire-8250.firebaseio.com/";
+	
+	Firebase firebase = new Firebase(firebaseURL + "draw/");
+	Firebase firebasechat = new Firebase(firebaseURL + "chat/");
+	Firebase firebasedraw = new Firebase(firebaseURL);
 	
 	JTextPane chat = new JTextPane();
 	StyledDocument doc = chat.getStyledDocument();
@@ -179,7 +181,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		// Winner / Word listeners
 		
 		
-		Firebase selectedword = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("selectedword");
+		Firebase selectedword = new Firebase(firebaseURL).child("selectedword");
 		selectedword.addValueEventListener(new ValueEventListener(){
 
 			@Override
@@ -198,7 +200,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 
 	    //coordinates = new ArrayList<Drawing>();
 		//Firebase chicken identifier
-		Firebase isChicken = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("quit");
+		Firebase isChicken = new Firebase(firebaseURL).child("quit");
 		isChicken.addValueEventListener(new ValueEventListener(){
 
 			@Override
@@ -223,7 +225,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 		});
 		
 		// Firebase win listener
-		Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
+		Firebase gameIsWon = new Firebase(firebaseURL).child("gameInProgress");
 		gameIsWon.addValueEventListener(new ValueEventListener(){
 			
 			JLabel winnerScreen = new JLabel();
@@ -242,13 +244,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue().toString().equals("false")){
                 	
-                	label.setBounds(0, 300, (int) (getSize().width*0.75), 100);
-                	label2.setBounds(0, 550, (int) (getSize().width*0.75), 100);
+                	label.setBounds(0, (int) (getSize().height/2.8), (int) (getSize().width*0.75), 100);
+                	label2.setBounds(0, (int) (getSize().height/1.45), (int) (getSize().width*0.75), 100);
                 	
                 	//Waiting screen
                 	if(startUp){
-                	waitingScreen.setIcon(new ImageIcon("WaitingScreen2600real.png"));
-                	waitingScreen.setBounds(80, 110 , 600, 600);
+                	waitingScreen.setIcon(new ImageIcon("libs/WaitingScreen2600real.png"));
+                	waitingScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300, 600, 600);
                 	contentPane.add(waitingScreen);
                 	contentPane.remove(winnerScreen);
                 	contentPane.remove(gameOverScreen);
@@ -257,8 +259,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                 	
                 	if(chickenChecker && !startUp){
-                    	waitingScreen.setIcon(new ImageIcon("WaitingScreen2600real.png"));
-                    	waitingScreen.setBounds(80, 110 , 600, 600);
+                    	waitingScreen.setIcon(new ImageIcon("libs/WaitingScreen2600real.png"));
+                    	waitingScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300 , 600, 600);
                     	contentPane.add(waitingScreen);
                     	contentPane.remove(winnerScreen);
                     	contentPane.remove(gameOverScreen);
@@ -274,8 +276,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                 	
                 		if(chickenChecker == false && drawTimedOut == false && startUp == false){
-                			winnerScreen.setIcon(new ImageIcon("WinnerScreen.png"));
-                        	winnerScreen.setBounds(80, 110, 600, 600);
+                			winnerScreen.setIcon(new ImageIcon("libs/WinnerScreen.png"));
+                        	winnerScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300, 600, 600);
                         	
                             selectedWord = selectedWord.substring(0, 1).toUpperCase() + selectedWord.substring(1);
                             label2.setText(selectedWord);
@@ -289,7 +291,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         	
                         	
                         	
-                        	Firebase winner = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("roundWinner");
+                        	Firebase winner = new Firebase(firebaseURL).child("roundWinner");
                     		winner.addValueEventListener(new ValueEventListener(){
 
                     			@Override
@@ -316,8 +318,8 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
                 		
                 		if(drawTimedOut && !startUp){
-                			gameOverScreen.setIcon(new ImageIcon("gameOverScreen600.png"));
-                        	gameOverScreen.setBounds(80, 100, 600, 600);
+                			gameOverScreen.setIcon(new ImageIcon("libs/gameOverScreen600.png"));
+                        	gameOverScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300, 600, 600);
                         	contentPane.add(gameOverScreen);
                         	contentPane.remove(waitingScreen);
                         	contentPane.remove(winnerScreen);
@@ -375,7 +377,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 	        	}
 	        	 
 	        	//URL för att hämta punkterna som ska ritas ut från databasen
-	        	Firebase firebasetemp = new Firebase("https://brilliant-fire-8250.firebaseio.com/draw/" + tempurl + "/points/");
+	        	Firebase firebasetemp = new Firebase(firebaseURL + "draw/" + tempurl + "/points/");
 	        	
 	        	firebasetemp.addChildEventListener(new ChildEventListener() {
 
@@ -408,7 +410,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 						final Drawing user = new Drawing(currentColor,x,y);
 						
 						
-						Firebase firebasetempColor = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("currentColor");
+						Firebase firebasetempColor = new Firebase(firebaseURL).child("currentColor");
 						firebasetempColor.addValueEventListener(new ValueEventListener(){
 
 							@Override
@@ -745,13 +747,13 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 //loads the different versions of the roboto font
 public void loadFont() throws Exception{
 		
-	File f = new File("Roboto-Regular.ttf");
+	File f = new File("libs/Roboto-Regular.ttf");
 	FileInputStream in = new FileInputStream(f);
 	Font roboto = Font.createFont(Font.TRUETYPE_FONT, in);
 	Font roboto20Pt = roboto.deriveFont(20f);
 	chat.setFont(roboto20Pt);
 	
-	File f2 = new File("Roboto-Regular.ttf");
+	File f2 = new File("libs/Roboto-Regular.ttf");
 	FileInputStream in2 = new FileInputStream(f2);
 	Font roboto2 = Font.createFont(Font.TRUETYPE_FONT, in2);
 	Font roboto80Pt = roboto2.deriveFont(50f);
@@ -759,7 +761,7 @@ public void loadFont() throws Exception{
 	label2.setFont(roboto80Pt);
 	labelGameOver.setFont(roboto80Pt);
 	
-	File f3 = new File("Roboto-Regular.ttf");
+	File f3 = new File("libs/Roboto-Regular.ttf");
 	FileInputStream in3 = new FileInputStream(f3);
 	Font roboto3 = Font.createFont(Font.TRUETYPE_FONT, in3);
 	Font robotoTimer = roboto2.deriveFont(55f);
@@ -865,7 +867,7 @@ timerFrame.setForeground(Color.WHITE);
 legitWin = false;
 drawTimedOut = false;
 
-Firebase currentDrawer = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("currentDrawer");
+Firebase currentDrawer = new Firebase(firebaseURL).child("currentDrawer");
 currentDrawer.addValueEventListener(new ValueEventListener(){
 
 	@Override
@@ -882,10 +884,10 @@ currentDrawer.addValueEventListener(new ValueEventListener(){
 	
 });
 
-final Firebase gameIsWon = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("gameInProgress");
-final Firebase gameIsOver = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("chicken");
-final Firebase timeOut = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("timedOut");
-final Firebase drawing = new Firebase("https://brilliant-fire-8250.firebaseio.com/").child("draw");
+final Firebase gameIsWon = new Firebase(firebaseURL).child("gameInProgress");
+final Firebase gameIsOver = new Firebase(firebaseURL).child("chicken");
+final Firebase timeOut = new Firebase(firebaseURL).child("timedOut");
+final Firebase drawing = new Firebase(firebaseURL).child("draw");
 new Timer().schedule(new TimerTask(){
 
     int second = 70;
@@ -996,7 +998,7 @@ public void setupFrame(){
 	//frameTop.setBackground(colorBlue);
 	
 	frameLogo.setVisible(true);
-	frameLogo.setIcon(new ImageIcon("ds_icon_72.png"));
+	frameLogo.setIcon(new ImageIcon("libs/ds_icon_72.png"));
 	frameLogo.setBounds(0, 0, 72, 72);
 	
 	
