@@ -244,10 +244,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 			public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue().toString().equals("false")){
                 	
+                	//labels used to print out who won and the word they guessed
                 	label.setBounds(0, (int) (getSize().height/2.8), (int) (getSize().width*0.75), 100);
                 	label2.setBounds(0, (int) (getSize().height/1.45), (int) (getSize().width*0.75), 100);
                 	
-                	//Waiting screen
+                	//logic for the startup waiting screen
                 	if(startUp){
                 	waitingScreen.setIcon(new ImageIcon("libs/WaitinScreen600.png"));
                 	waitingScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300, 600, 600);
@@ -257,7 +258,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	contentPane.repaint();
                 	}
                 	
-                	
+                	//logic for when someone backs out of drawing
                 	if(chickenChecker && !startUp){
                     	waitingScreen.setIcon(new ImageIcon("libs/WaitinScreen600.png"));
                     	waitingScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300 , 600, 600);
@@ -274,7 +275,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                 	
 
                 	
-                	
+                		//logic for the winstate
                 		if(chickenChecker == false && drawTimedOut == false && startUp == false){
                 			winnerScreen.setIcon(new ImageIcon("libs/WinnerScreen.png"));
                         	winnerScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300, 600, 600);
@@ -316,7 +317,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         	
                 		}
                 	
-                		
+                		//logic for drawing the game over screen
                 		if(drawTimedOut && !startUp){
                 			gameOverScreen.setIcon(new ImageIcon("libs/gameOverScreen600.png"));
                         	gameOverScreen.setBounds((int) ((getSize().width*0.75)/2-300), getSize().height/2-300, 600, 600);
@@ -333,6 +334,7 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
                         
                        
                 }
+                //logic for when the game should be ongoing
                 if(dataSnapshot.getValue().toString().equals("true")){
                 	contentPane.remove(waitingScreen);
                 	contentPane.remove(winnerScreen);
@@ -353,7 +355,6 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 });
 
 		
-		//ï¿½r det rï¿½tt att anvï¿½nda addchildeventlistener nï¿½r vi ska konstant avlyssna kordinater
 	    firebase.addChildEventListener(new ChildEventListener() {
 	        
 
@@ -364,19 +365,11 @@ public class DrawTestFrame extends JFrame implements KeyEventDispatcher {
 				tempurl = snapshot.getKey();
 				
 				
-				
-				
-				
-				
-				//kan vi anvï¿½nda place pï¿½ samma sï¿½tt som du gï¿½r nï¿½r vi ska hï¿½mta mï¿½nga kordinater?
-				
 	        	for (DataSnapshot dataSnapshot : dsList) {
-	        	
-	   
 	        		
 	        	}
 	        	 
-	        	//URL för att hämta punkterna som ska ritas ut från databasen
+	        	//URL used to get the coordinates from the database
 	        	Firebase firebasetemp = new Firebase(firebaseURL + "draw/" + tempurl + "/points/");
 	        	
 	        	firebasetemp.addChildEventListener(new ChildEventListener() {
@@ -817,6 +810,7 @@ public void setFullscreen(boolean fullscreen) {
 }
 
 //sets the keybind for switching between fullscreen and windowed
+//change f in (e.getKeyChar()=='f') for a different keybind
 @Override
 public boolean dispatchKeyEvent(KeyEvent e) {
     if (e.getID() == KeyEvent.KEY_TYPED) {
@@ -990,13 +984,7 @@ public void setupFrame(){
 	frameLeft.setOpaque(true);
 	frameLeft.setBackground(colorBlue);
 	
-	//Top
-	//frameTop.setVisible(true);
-	//timerFrame.setSize(400,20);
-	//frameTop.setBounds(70, 0, (int) (getSize().width*0.75-94), 72);
-	//frameTop.setOpaque(true);
-	//frameTop.setBackground(colorBlue);
-	
+	//Top left corner icon
 	frameLogo.setVisible(true);
 	frameLogo.setIcon(new ImageIcon("libs/ds_icon_72.png"));
 	frameLogo.setBounds(0, 0, 72, 72);
